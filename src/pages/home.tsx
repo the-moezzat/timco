@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Header from '@/components/header';
 
 interface HomeProps {
   imageDetails: {
@@ -13,6 +14,8 @@ const transition = { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] };
 
 const Home = ({ imageDetails, image }: HomeProps) => (
   <>
+    <Header />
+
     <main>
       <div className="container">
         <div className="row center">

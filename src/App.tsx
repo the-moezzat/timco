@@ -12,6 +12,7 @@ import DashboardGallery from './features/dashboard/dashboardGallery';
 import MainGallery from './features/gallery/mainGallery';
 import AppLayout from './pages/appLayout';
 import DashboardBlog from './features/dashboard/dashboardBlog';
+import BlogPost from './features/blog/blogPost';
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ function App() {
               <Route index element={<Home imageDetails={imageDetails} />} />
               <Route path="current" element={<h1>Current</h1>} />
               <Route path="blog" element={<h1>Blog</h1>} />
+              <Route path="blog/:blogId" element={<BlogPost />} />
               <Route path="pics" element={<MainGallery />} />
               <Route path="contact" element={<h1>Contact</h1>} />
             </Route>

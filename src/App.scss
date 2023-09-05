@@ -106,10 +106,11 @@ body {
 
 header {
   font-size: 16px;
-  position: sticky;
+  position: relative;
   font-weight: 400;
   top: 0;
   z-index: 30;
+
   .container {
     .row {
       height: 128px;

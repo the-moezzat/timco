@@ -9,24 +9,28 @@ import {
 } from '@/components/ui/dialog';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getImages, uploadImage } from '@/services/galleryApi';
+import Gallery from '../gallery/gallery';
 
 function DashboardGallery() {
+  const queryClient = useQueryClient();
+  const { register, handleSubmit, reset } = useForm();
+
   const { mutate, isLoading } = useMutation(uploadImage, {
-    onSuccess: (data) => console.log(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['gallery'] });
+      reset();
+    },
   });
   const { data, isLoading: isDataLoading } = useQuery(['gallery'], {
     queryFn: getImages,
   });
-  const { register, handleSubmit } = useForm();
 
   function onSubmit(data: any) {
     const image: FileList =
       typeof data.image === 'string' ? data.image : data.image;
-
     Array.from(image).map((file) => mutate(file));
-    // mutate(image);
   }
 
   function onError(errors: any) {
@@ -34,7 +38,7 @@ function DashboardGallery() {
   }
 
   return (
-    <div>
+    <div className=" space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-5xl font-bold">Gallery</h1>
         <Dialog>
@@ -68,11 +72,17 @@ function DashboardGallery() {
           </DialogContent>
         </Dialog>
       </div>
-      {isDataLoading
-        ? 'loading'
-        : data?.map((pic) => (
-            <img src={pic.img as string} alt={pic.name as string} />
-          ))}
+      {isDataLoading ? (
+        'loading'
+      ) : (
+        <Gallery
+          render={() =>
+            data?.map((pic) => (
+              <img src={pic.img as string} alt={pic.name as string} />
+            ))
+          }
+        />
+      )}
     </div>
   );
 }

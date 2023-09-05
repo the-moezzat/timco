@@ -9,12 +9,14 @@ import {
 } from '@/components/ui/dialog';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { getImages, uploadImage } from '@/services/galleryApi';
+import { useMutation, useQueryClient } from 'react-query';
+import { uploadImage } from '@/services/galleryApi';
 import Gallery from '../gallery/gallery';
+import usePics from '@/hooks/usePics';
 
 function DashboardGallery() {
   const queryClient = useQueryClient();
+  const { data, isLoading: isDataLoading } = usePics();
   const { register, handleSubmit, reset } = useForm();
 
   const { mutate, isLoading } = useMutation(uploadImage, {
@@ -22,9 +24,6 @@ function DashboardGallery() {
       queryClient.invalidateQueries({ queryKey: ['gallery'] });
       reset();
     },
-  });
-  const { data, isLoading: isDataLoading } = useQuery(['gallery'], {
-    queryFn: getImages,
   });
 
   function onSubmit(data: any) {

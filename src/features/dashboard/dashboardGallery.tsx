@@ -22,9 +22,11 @@ function DashboardGallery() {
   const { register, handleSubmit } = useForm();
 
   function onSubmit(data: any) {
-    const image = typeof data.image === 'string' ? data.image : data.image[0];
-    mutate(image);
-    // console.log(image);
+    const image: FileList =
+      typeof data.image === 'string' ? data.image : data.image;
+
+    Array.from(image).map((file) => mutate(file));
+    // mutate(image);
   }
 
   function onError(errors: any) {
@@ -33,7 +35,7 @@ function DashboardGallery() {
 
   return (
     <div>
-      <header className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <h1 className="text-5xl font-bold">Gallery</h1>
         <Dialog>
           <DialogTrigger>
@@ -65,7 +67,7 @@ function DashboardGallery() {
             </form>
           </DialogContent>
         </Dialog>
-      </header>
+      </div>
       {isDataLoading
         ? 'loading'
         : data?.map((pic) => (

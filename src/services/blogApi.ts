@@ -42,3 +42,11 @@ export async function getPostById(id: string) {
 
   return data;
 }
+
+export async function getAllPosts() {
+  const { data, error } = await supabase.from('blog').select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

@@ -85,6 +85,7 @@ export const Markdown = styled(ReactMarkdown)`
   }
 
   code {
+    color: #343a40;
     font-family: inherit;
     position: relative;
     display: inline-block;
@@ -99,7 +100,7 @@ export const Markdown = styled(ReactMarkdown)`
   blockquote {
     font-family: inherit;
     margin-top: 1.5rem; /* Equivalent to mt-6 in Tailwind CSS */
-    border-left: 2px solid #000; /* Equivalent to border-l-2 in Tailwind CSS */
+    border-left: 2px solid #495057; /* Equivalent to border-l-2 in Tailwind CSS */
     padding-left: 1.5rem; /* Equivalent to pl-6 in Tailwind CSS */
     font-style: italic; /* Equivalent to italic in Tailwind CSS */
     color: #495057;
@@ -114,7 +115,7 @@ export const Markdown = styled(ReactMarkdown)`
   table th {
     font-family: inherit;
     margin: 0; /* Equivalent to m-0 in Tailwind CSS */
-    border-top: 1px solid #000; /* Equivalent to border-t in Tailwind CSS */
+    border-top: 1px solid #495057; /* Equivalent to border-t in Tailwind CSS */
     padding: 0; /* Equivalent to p-0 in Tailwind CSS */
     background-color: #f0f0f0; /* Equivalent to even:bg-muted in Tailwind CSS */
     text-align: center; /* Default text alignment for th elements */
@@ -136,7 +137,7 @@ export const Markdown = styled(ReactMarkdown)`
   table td {
     font-family: inherit;
     margin: 0; /* Equivalent to m-0 in Tailwind CSS */
-    border-top: 1px solid #000; /* Equivalent to border-t in Tailwind CSS */
+    border-top: 1px solid #495057; /* Equivalent to border-t in Tailwind CSS */
     padding: 0; /* Equivalent to p-0 in Tailwind CSS */
     background-color: #f0f0f0; /* Equivalent to even:bg-muted in Tailwind CSS */
     text-align: center; /* Default text alignment for td elements */
@@ -158,7 +159,7 @@ export const Markdown = styled(ReactMarkdown)`
   table th,
   table td {
     font-family: inherit;
-    border: 1px solid #000; /* Equivalent to border in Tailwind CSS */
+    border: 1px solid #495057; /* Equivalent to border in Tailwind CSS */
     padding: 0.5rem 1rem; /* Equivalent to px-4 py-2 in Tailwind CSS */
     font-weight: bold; /* Equivalent to font-bold in Tailwind CSS */
   }

@@ -22,7 +22,7 @@ export default function AddBlog() {
   const { mutate, isLoading } = useMutation({
     mutationFn: AddPost,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['gallery'] });
+      queryClient.invalidateQueries({ queryKey: ['blog'] });
       reset();
     },
   });

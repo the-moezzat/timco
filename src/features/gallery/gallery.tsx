@@ -10,7 +10,7 @@ export default function Gallery({ render }: any) {
 
   return (
     <Box>
-      <Masonry columns={sm ? 1 : md ? 2 : lg ? 3 : 4} spacing={1} sx={{}}>
+      <Masonry columns={sm ? 1 : md ? 2 : lg ? 3 : 4} spacing={1}>
         {render()}
       </Masonry>
     </Box>

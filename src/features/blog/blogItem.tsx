@@ -8,6 +8,8 @@ interface BlogItemProps {
   createdAt: string;
   content: string;
   id: string;
+  children?: React.ReactNode;
+  loading?: boolean;
 }
 
 const Thumbnail = styled.div<{ $src: string }>`
@@ -23,12 +25,19 @@ export default function BlogItem({
   title,
   createdAt,
   id,
+  children,
+  loading,
 }: BlogItemProps) {
   return (
-    <div>
-      <Link to={`${id}`} className="grid grid-cols-[auto,1fr] gap-4">
+    <div className="grid grid-cols-[auto,1fr] gap-4 relative">
+      {loading && (
+        <div className="absolute inset-0 w-full h-full bg-gray-200/50 z-10 animate-pulse"></div>
+      )}
+      <Link to={`${id}`}>
         <Thumbnail $src={thumbnail} />
-        <div className="flex flex-col">
+      </Link>
+      <div className="flex flex-col">
+        <Link to={`${id}`}>
           <div>
             <p className="text-sm text-gray-500 mb-2">
               {new Date(createdAt as string).toLocaleDateString(undefined, {
@@ -40,12 +49,14 @@ export default function BlogItem({
             <h2 className="text-3xl font-bold text-gray-700">{title}</h2>
             {/* <p>{content}</p> */}
           </div>
-          <div className="mt-auto">
+        </Link>
+        {children && (
+          <div className="mt-auto space-y-2">
             <Separator />
-            <p className="text-sm text-gray-500">Read More</p>
+            {children}
           </div>
-        </div>
-      </Link>
+        )}
+      </div>
     </div>
   );
 }

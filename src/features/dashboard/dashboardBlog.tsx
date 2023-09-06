@@ -9,7 +9,7 @@ function DashboardBlog() {
         <AddBlog />
       </div>
       <div className=" max-w-4xl mx-auto">
-        <Blog />
+        <Blog type="admin" />
       </div>
     </div>
   );

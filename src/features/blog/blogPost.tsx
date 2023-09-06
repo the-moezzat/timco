@@ -20,7 +20,7 @@ function BlogPost() {
       {isLoading && 'Loading...'}
       {post && (
         <div className="max-w-4xl mx-auto py-8 flex flex-col items-center font-inter ">
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-4 font-inter text-[#212529]">
+          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-4 font-inter text-[#212529] text-center">
             {post.title}
           </h1>
           <p className="text-sm font-medium leading-none text-gray-500 mb-12 ">

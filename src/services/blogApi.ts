@@ -50,3 +50,19 @@ export async function getAllPosts() {
 
   return data;
 }
+
+export async function deletePost(id: string) {
+  const { error, data } = await supabase
+    .from('blog')
+    .delete()
+    .eq('id', id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  const { error: DeleteError } = await supabase.storage
+    .from('images')
+    .remove([data[0].thumbnail?.split('/').at(-1) as string]);
+
+  if (DeleteError) throw new Error(DeleteError.message);
+}

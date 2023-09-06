@@ -32,9 +32,9 @@ function App() {
             <Route path="/" element={<AppLayout />}>
               <Route index element={<Home imageDetails={imageDetails} />} />
               <Route path="current" element={<h1>Current</h1>} />
-              <Route path="blog" element={<Blog />} />
+              <Route path="blog" element={<Blog type="user" />} />
               <Route path="blog/:blogId" element={<BlogPost />} />
-              <Route path="pics" element={<MainGallery />} />
+              <Route path="gallery" element={<MainGallery />} />
               <Route path="contact" element={<h1>Contact</h1>} />
             </Route>
             <Route

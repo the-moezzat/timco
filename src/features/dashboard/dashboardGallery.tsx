@@ -13,6 +13,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { uploadImage } from '@/services/galleryApi';
 import Gallery from '../gallery/gallery';
 import usePics from '@/hooks/usePics';
+import GalleryItem from './galleryItem';
 
 function DashboardGallery() {
   const queryClient = useQueryClient();
@@ -77,7 +78,12 @@ function DashboardGallery() {
         <Gallery
           render={() =>
             data?.map((pic) => (
-              <img src={pic.img as string} alt={pic.name as string} />
+              <GalleryItem
+                id={String(pic.id)}
+                src={pic.img as string}
+                alt={pic.name as string}
+                key={pic.id}
+              />
             ))
           }
         />

@@ -36,3 +36,35 @@ export async function getImages() {
 
   return data;
 }
+
+export async function deleteImage({
+  id,
+  imageName,
+}: {
+  id: string;
+  imageName: string;
+}) {
+  const { error } = await supabase
+    .from('images')
+    .delete()
+    .match({ id })
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  const { error: DeleteError } = await supabase.storage
+    .from('gallery')
+    .remove([imageName]);
+
+  if (DeleteError) throw new Error(DeleteError.message);
+}
+
+export async function downloadImage(imageName: string) {
+  const { data, error } = await supabase.storage
+    .from('gallery')
+    .download(imageName);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

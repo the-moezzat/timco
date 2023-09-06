@@ -15,7 +15,7 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
     staleTime: Infinity,
   });
 
-  const { mutate, isLoading: deleteLoading } = useMutation(deletePost, {
+  const { mutate } = useMutation(deletePost, {
     onSuccess: () => {
       queryClient.invalidateQueries('blog');
     },

@@ -66,3 +66,41 @@ export async function deletePost(id: string) {
 
   if (DeleteError) throw new Error(DeleteError.message);
 }
+
+export async function updatePost({
+  id,
+  title,
+  content,
+  thumbnail,
+}: {
+  id: string;
+  title: string;
+  content: string;
+  thumbnail: FileList | string;
+}) {
+  let thumbnailPath = thumbnail as string;
+
+  if (typeof thumbnail === 'object') {
+    const imageName = `${Math.random()}-${thumbnail[0].name}`
+      .replace(' ', '_')
+      .replace('/', '');
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('images')
+      .upload(imageName, thumbnail[0]);
+
+    if (uploadError) throw new Error(uploadError.message);
+
+    thumbnailPath = `https://ymecappcpodzozqwmydb.supabase.co/storage/v1/object/public/images/${uploadData.path}`;
+  }
+
+  const { data, error } = await supabase
+    .from('blog')
+    .update({ title, content, thumbnail: thumbnailPath })
+    .eq('id', id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

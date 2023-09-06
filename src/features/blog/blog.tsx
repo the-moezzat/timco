@@ -4,6 +4,7 @@ import BlogItem from './blogItem';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/Loading';
 import { useState } from 'react';
+import EditBlog from './editBlog';
 
 function Blog({ type }: { type: 'admin' | 'user' }) {
   const queryClient = useQueryClient();
@@ -38,7 +39,7 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
             >
               {type === 'admin' && (
                 <div className="flex gap-2 justify-end">
-                  <Button size={'sm'}>Edit</Button>
+                  <EditBlog defaultValues={post} />
                   <Button
                     variant={'destructive'}
                     onClick={() => {

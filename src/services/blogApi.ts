@@ -2,12 +2,16 @@ import { supabase } from './supabase';
 
 export async function AddPost({
   title,
+  draft,
   content,
+  category,
   thumbnail,
 }: {
   title: string;
   content: string;
   thumbnail: FileList;
+  category: string;
+  draft: boolean;
 }) {
   const imageName = `${Math.random()}-${thumbnail[0].name}`
     .replace(' ', '_')
@@ -25,6 +29,8 @@ export async function AddPost({
       {
         title,
         content,
+        category,
+        draft,
         thumbnail: `https://ymecappcpodzozqwmydb.supabase.co/storage/v1/object/public/images/${uploadData.path}`,
       },
     ])
@@ -43,8 +49,18 @@ export async function getPostById(id: string) {
   return data;
 }
 
-export async function getAllPosts() {
-  const { data, error } = await supabase.from('blog').select();
+export async function getAllPosts({
+  title,
+  category,
+}: {
+  title: string;
+  category: string;
+}) {
+  const { data, error } = await supabase
+    .from('blog')
+    .select('*')
+    .ilike('title', `%${title}%`)
+    .ilike('category', `%${category}%`);
 
   if (error) throw new Error(error.message);
 
@@ -69,13 +85,17 @@ export async function deletePost(id: string) {
 
 export async function updatePost({
   id,
+  draft,
   title,
   content,
+  category,
   thumbnail,
 }: {
   id: string;
+  draft: boolean;
   title: string;
   content: string;
+  category: string;
   thumbnail: FileList | string;
 }) {
   let thumbnailPath = thumbnail as string;
@@ -96,7 +116,19 @@ export async function updatePost({
 
   const { data, error } = await supabase
     .from('blog')
-    .update({ title, content, thumbnail: thumbnailPath })
+    .update({ title, content, thumbnail: thumbnailPath, draft, category })
+    .eq('id', id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function draftPost({ id, draft }: { id: string; draft: boolean }) {
+  const { data, error } = await supabase
+    .from('blog')
+    .update({ draft })
     .eq('id', id)
     .select();
 

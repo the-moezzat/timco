@@ -11,22 +11,28 @@ export interface Database {
     Tables: {
       blog: {
         Row: {
+          category: string | null;
           content: string | null;
           created_at: string;
+          draft: boolean;
           id: number;
           thumbnail: string | null;
           title: string | null;
         };
         Insert: {
+          category?: string | null;
           content?: string | null;
           created_at?: string;
+          draft?: boolean;
           id?: number;
           thumbnail?: string | null;
           title?: string | null;
         };
         Update: {
+          category?: string | null;
           content?: string | null;
           created_at?: string;
+          draft?: boolean;
           id?: number;
           thumbnail?: string | null;
           title?: string | null;

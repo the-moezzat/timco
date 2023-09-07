@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { AddPost } from '@/services/blogApi';
 import { useForm } from 'react-hook-form';
 import { useQueryClient, useMutation } from 'react-query';
+import Calender from './calender';
 
 export default function AddBlog() {
   const queryClient = useQueryClient();
@@ -62,7 +63,7 @@ export default function AddBlog() {
 
               <FormRow
                 label="Thumbnail"
-                error={errors?.image?.message as string}
+                error={errors?.thumbnail?.message as string}
               >
                 <Input
                   {...register('thumbnail', {
@@ -73,6 +74,14 @@ export default function AddBlog() {
                   className="text-base text-gray-8"
                   disabled={isLoading}
                 />
+              </FormRow>
+              <FormRow
+                label="Content"
+                error={errors?.created_at?.message as string}
+              >
+                <div>
+                  <Calender />
+                </div>
               </FormRow>
               <FormRow
                 label="Content"

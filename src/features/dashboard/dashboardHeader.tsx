@@ -23,6 +23,9 @@ export default function DashboardHeader() {
         <li>
           <NavItem to="blog">Blog</NavItem>
         </li>
+        <li>
+          <NavItem to="current">Current</NavItem>
+        </li>
       </ul>
       <Link to="/">
         <Button variant={'default'} size={'sm'}>

@@ -1,5 +1,7 @@
+import Loading from '@/components/Loading';
 import DashboardHeader from '@/features/dashboard/dashboardHeader';
 import { getCurrentUser } from '@/services/auth';
+import { Suspense } from 'react';
 import { useQuery } from 'react-query';
 import { Outlet, useNavigate } from 'react-router-dom';
 
@@ -21,7 +23,9 @@ function Dashboard() {
     <div className="max-w-[1440px] mx-auto px-4 py-4">
       <DashboardHeader />
       <main className="p-2 pt-4">
-        <Outlet />
+        <Suspense fallback={<Loading type="full" size="large" />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );

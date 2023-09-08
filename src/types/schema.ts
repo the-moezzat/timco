@@ -39,6 +39,58 @@ export interface Database {
         };
         Relationships: [];
       };
+      current_items: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          id: number;
+          link: string | null;
+          section_id: number | null;
+          title: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          link?: string | null;
+          section_id?: number | null;
+          title?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          link?: string | null;
+          section_id?: number | null;
+          title?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'current_items_section_id_fkey';
+            columns: ['section_id'];
+            referencedRelation: 'current_sections';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      current_sections: {
+        Row: {
+          created_at: string;
+          id: number;
+          title: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          title?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          title?: string | null;
+        };
+        Relationships: [];
+      };
       images: {
         Row: {
           created_at: string;

@@ -10,12 +10,12 @@ import { Separator } from '@radix-ui/react-separator';
 
 export default function Footer() {
   return (
-    <div className="mt-auto pb-2">
+    <div className="mt-auto pb-1">
       <Separator
         orientation="horizontal"
         className="mb-2 bg-neutral-300 h-[0.5px] mt-2"
       />
-      <div className="flex justify-between gap-2 items-center mt-auto">
+      <div className="flex justify-between gap-1 items-center mt-auto">
         <p className="text-sm text-neutral-500 max-sm:text-xs">
           @{new Date().getFullYear()} all right received tim co
         </p>

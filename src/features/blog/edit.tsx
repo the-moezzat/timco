@@ -67,6 +67,7 @@ const formSchema = z.object({
     required_error: 'Category is required',
   }),
 });
+
 export default function Edit({ defaultValues }: EditBlogProps) {
   const queryClient = useQueryClient();
   const [draft, setDraft] = useState<boolean>(false);

@@ -11,7 +11,7 @@ const NavLink = styled(Link)`
 `;
 const Header = () => {
   return (
-    <header className="max-w-[1480px] mx-auto flex items-center justify-center py-2 px-4 italic">
+    <header className="flex items-center justify-center italic max-sm:text-sm">
       <ul className="flex items-center gap-4 justify-between w-full">
         <li>
           <NavLink to="/">Home</NavLink>

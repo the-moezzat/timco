@@ -14,6 +14,8 @@ import AppLayout from './pages/appLayout';
 import DashboardBlog from './features/dashboard/dashboardBlog';
 import BlogPost from './features/blog/blogPost';
 import Blog from './features/blog/blog';
+import Contact from './features/contact/contact';
+import { Toaster } from '@/components/ui/toaster';
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,7 @@ const imageDetails = {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster />
       <ReactQueryDevtools initialIsOpen={false} />
       <BrowserRouter>
         <AnimatePresence initial={true} mode="wait">
@@ -35,25 +38,21 @@ function App() {
               <Route path="blog" element={<Blog type="user" />} />
               <Route path="blog/:blogId" element={<BlogPost />} />
               <Route path="gallery" element={<MainGallery />} />
-              <Route path="contact" element={<h1>Contact</h1>} />
+              <Route path="contact" element={<Contact />} />
             </Route>
             <Route
               path="/model/:id"
               element={<Model imageDetails={imageDetails} />}
             />
+            <Route path="login" element={<Login />} />
+            <Route path="tim" element={<Dashboard />}>
+              <Route index element={<Navigate to="gallery" />} />
+              <Route path="gallery" element={<DashboardGallery />} />
+              <Route path="blog" element={<DashboardBlog />} />
+              <Route path="blog/:blogId" element={<BlogPost />} />
+            </Route>
           </Routes>
         </AnimatePresence>
-        <Routes>
-          <Route path="tim" element={<Dashboard />}>
-            <Route index element={<Navigate to="gallery" />} />
-            <Route path="gallery" element={<DashboardGallery />} />
-            <Route path="blog" element={<DashboardBlog />} />
-            <Route path="blog/:blogId" element={<BlogPost />} />
-          </Route>
-        </Routes>
-        <Routes>
-          <Route path="login" element={<Login />} />
-        </Routes>
       </BrowserRouter>
     </QueryClientProvider>
   );

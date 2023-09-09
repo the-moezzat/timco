@@ -7,9 +7,9 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import Loading from './components/Loading';
 import { Toaster } from 'react-hot-toast';
 import MainCurrent from './features/current/mainCurrent';
+import Model from './pages/model';
 
-const Home = lazy(() => import('./pages/home'));
-const Model = lazy(() => import('./pages/model'));
+import Home from './pages/home';
 const Dashboard = lazy(() => import('./pages/dashboard'));
 const Login = lazy(() => import('./features/dashboard/login'));
 const DashboardGallery = lazy(

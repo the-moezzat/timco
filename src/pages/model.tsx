@@ -71,7 +71,6 @@ const Model = ({ imageDetails }: ModelProps) => {
   return (
     <>
       <Header />
-
       <motion.div
         onAnimationComplete={() => setCanScroll(true)}
         className="single"

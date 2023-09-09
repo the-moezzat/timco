@@ -1,7 +1,7 @@
 import { getItems } from '@/services/currentApi';
 import { useQuery } from 'react-query';
 import { Database } from '@/types/schema';
-import Item from './Item';
+import Item from './item';
 
 type Section = Database['public']['Tables']['current_sections']['Row'];
 function Section({ section }: { section: Section }) {

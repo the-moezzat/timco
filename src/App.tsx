@@ -4,21 +4,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './App.scss';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Toaster } from '@/components/ui/toaster';
 import Loading from './components/Loading';
-
-// import Home from './pages/home';
-// import Model from './pages/model';
-// import Dashboard from './pages/dashboard';
-// import Login from './features/dashboard/login';
-// import DashboardGallery from './features/dashboard/dashboardGallery';
-// import MainGallery from './features/gallery/mainGallery';
-// import AppLayout from './pages/appLayout';
-// import DashboardBlog from './features/dashboard/dashboardBlog';
-// import BlogPost from './features/blog/blogPost';
-// import Blog from './features/blog/blog';
-// import Contact from './features/contact/contact';
-// import DashboardCurrent from './features/dashboard/dashboardCurrent';
+import { Toaster } from 'react-hot-toast';
+import MainCurrent from './features/current/mainCurrent';
 
 const Home = lazy(() => import('./pages/home'));
 const Model = lazy(() => import('./pages/model'));
@@ -55,7 +43,7 @@ function App() {
             <Routes>
               <Route path="/" element={<AppLayout />}>
                 <Route index element={<Home imageDetails={imageDetails} />} />
-                <Route path="current" element={<h1>Current</h1>} />
+                <Route path="current" element={<MainCurrent />} />
                 <Route path="blog" element={<Blog type="user" />} />
                 <Route path="blog/:blogId" element={<BlogPost />} />
                 <Route path="gallery" element={<MainGallery />} />

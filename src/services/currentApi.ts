@@ -80,8 +80,8 @@ export async function addItem({
 }: {
   title: string;
   section_id: number;
-  description: string;
-  link: string;
+  description?: string;
+  link?: string;
 }) {
   const { data, error } = await supabase
     .from('current_items')

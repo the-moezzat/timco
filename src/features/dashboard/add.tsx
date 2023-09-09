@@ -46,6 +46,7 @@ const formSchema = z.object({
     required_error: 'Category is required',
   }),
 });
+
 export default function Add() {
   const queryClient = useQueryClient();
   const [draft, setDraft] = useState(false);

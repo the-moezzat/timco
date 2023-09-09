@@ -20,7 +20,7 @@ function Dashboard() {
   });
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 py-4">
+    <div className="max-w-[1440px] mx-auto px-4 py-4 font-poppins">
       <DashboardHeader />
       <main className="p-2 pt-4">
         <Suspense fallback={<Loading type="full" size="large" />}>

@@ -52,7 +52,7 @@ function DashboardGallery() {
 
             <form
               onSubmit={handleSubmit(onSubmit, onError)}
-              className="flex flex-col gap-2 bg-white p-6 rounded-md w-96"
+              className="flex flex-col gap-2 bg-white p-6 rounded-md w-full"
             >
               <Input
                 {...register('image', {

@@ -37,6 +37,7 @@
     "react-day-picker": "^8.8.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.0",
+    "react-hot-toast": "^2.4.1",
     "react-markdown": "^8.0.7",
     "react-query": "^3.39.3",
     "react-remark": "^2.1.0",

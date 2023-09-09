@@ -28,7 +28,7 @@ export default function DashboardHeader() {
         </li>
       </ul>
       <Link to="/">
-        <Button variant={'default'} size={'sm'}>
+        <Button variant={'outline'} size={'sm'}>
           Back to Main
         </Button>
       </Link>

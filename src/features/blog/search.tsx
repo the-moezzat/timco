@@ -21,19 +21,19 @@ export default function Search() {
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
     setSearchParams({ search: e.target.value, filter });
-    queryClient.invalidateQueries('blog');
+    queryClient.invalidateQueries(['blog']);
   }
 
   function handleClearSearch() {
     setSearch('');
     setSearchParams({});
-    queryClient.invalidateQueries('blog');
+    queryClient.invalidateQueries(['blog']);
   }
 
   function handleFilter(value: string) {
     setFilter(value);
     setSearchParams({ filter: value, search });
-    queryClient.invalidateQueries('blog');
+    queryClient.invalidateQueries(['blog']);
   }
 
   return (

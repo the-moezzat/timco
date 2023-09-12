@@ -31,7 +31,9 @@ export async function AddPost({
         content,
         category,
         draft,
-        thumbnail: `https://ymecappcpodzozqwmydb.supabase.co/storage/v1/object/public/images/${uploadData.path}`,
+        thumbnail: `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/images/${uploadData.path}`,
       },
     ])
     .select();
@@ -111,7 +113,9 @@ export async function updatePost({
 
     if (uploadError) throw new Error(uploadError.message);
 
-    thumbnailPath = `https://ymecappcpodzozqwmydb.supabase.co/storage/v1/object/public/images/${uploadData.path}`;
+    thumbnailPath = `${
+      import.meta.env.VITE_SUPABASE_URL
+    }/storage/v1/object/public/images/${uploadData.path}`;
   }
 
   const { data, error } = await supabase

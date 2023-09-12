@@ -14,6 +14,7 @@ import { uploadImage } from '@/services/galleryApi';
 import Gallery from '../gallery/gallery';
 import usePics from '@/hooks/usePics';
 import GalleryItem from './galleryItem';
+import { toast } from 'react-hot-toast';
 
 function DashboardGallery() {
   const queryClient = useQueryClient();
@@ -23,8 +24,12 @@ function DashboardGallery() {
   const { mutate, isLoading } = useMutation(uploadImage, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['gallery'] });
+      toast.success('Image uploaded successfully');
       reset();
     },
+    onError() {
+      toast.error('Something went wrong');
+    }
   });
 
   function onSubmit(data: any) {

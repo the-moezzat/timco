@@ -4,7 +4,6 @@ import BlogItem from './blogItem';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/Loading';
 import { useState } from 'react';
-// import EditBlog from './editBlog';
 import Edit from './edit';
 import Search from './search';
 import usePosts from './usePosts';
@@ -12,6 +11,7 @@ import usePosts from './usePosts';
 function Blog({ type }: { type: 'admin' | 'user' }) {
   const queryClient = useQueryClient();
   const [blogId, setBlogId] = useState(0);
+  // const [searchParams] = useSearchParams();
 
   const { data, isLoading } = usePosts();
 
@@ -27,7 +27,7 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
 
   const { mutate } = useMutation(deletePost, {
     onSuccess: () => {
-      queryClient.invalidateQueries('blog');
+      queryClient.invalidateQueries(['blog']);
     },
   });
 

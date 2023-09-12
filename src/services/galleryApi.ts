@@ -6,19 +6,19 @@ export async function uploadImage(file: File) {
     .replace(' ', '_')
     .replace('/', '');
 
-  // const imagePath = `https://ymecappcpodzozqwmydb.supabase.co/storage/v1/object/public/gallery/${imageName}`;
-
   const { data: uploadData, error: uploadError } = await supabase.storage
-    .from('gallery')
+    .from('images')
     .upload(imageName, file);
 
   if (uploadError) throw new Error(uploadError.message);
 
   const { data, error } = await supabase
-    .from('images')
+    .from('gallery')
     .insert([
       {
-        img: `https://ymecappcpodzozqwmydb.supabase.co/storage/v1/object/public/gallery/${uploadData.path}`,
+        img: `${
+          import.meta.env.VITE_SUPABASE_URL
+        }/storage/v1/object/public/images/${uploadData.path}`,
         name: file.name,
       },
     ])
@@ -30,7 +30,7 @@ export async function uploadImage(file: File) {
 }
 
 export async function getImages() {
-  const { data, error } = await supabase.from('images').select();
+  const { data, error } = await supabase.from('gallery').select();
 
   if (error) throw new Error(error.message);
 
@@ -45,7 +45,7 @@ export async function deleteImage({
   imageName: string;
 }) {
   const { error } = await supabase
-    .from('images')
+    .from('gallery')
     .delete()
     .match({ id })
     .select();
@@ -53,7 +53,7 @@ export async function deleteImage({
   if (error) throw new Error(error.message);
 
   const { error: DeleteError } = await supabase.storage
-    .from('gallery')
+    .from('images')
     .remove([imageName]);
 
   if (DeleteError) throw new Error(DeleteError.message);
@@ -61,7 +61,7 @@ export async function deleteImage({
 
 export async function downloadImage(imageName: string) {
   const { data, error } = await supabase.storage
-    .from('gallery')
+    .from('images')
     .download(imageName);
 
   if (error) throw new Error(error.message);

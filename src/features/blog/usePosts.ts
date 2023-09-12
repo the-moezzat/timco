@@ -4,11 +4,21 @@ import { useSearchParams } from 'react-router-dom';
 import { getAllPosts } from '@/services/blogApi';
 
 export default function usePosts() {
+  const [searchParams] = useSearchParams();
+
+  // const { isLoading, data, isError, refetch } = useQuery(['blog'], {
+  //   queryFn: () =>
+  //     getAllPosts({
+  //       title: title,
+  //       category: category,
+  //     }),
+  //   onSuccess: (data) => console.log(data),
+  //   staleTime: Infinity,
+  // });
+
   const { data, isLoading, mutate, isError } = useMutation(getAllPosts, {
     onSuccess: (data) => console.log(data),
   });
-  const [searchParams] = useSearchParams();
-
   useEffect(
     function () {
       mutate({
@@ -18,6 +28,15 @@ export default function usePosts() {
     },
     [mutate, searchParams]
   );
+
+  // useEffect(
+  //   function () {
+  //     refetch({
+  //       queryKey: ['blog'],
+  //     });
+  //   },
+  //   [searchParams, refetch]
+  // );
 
   return { data, isLoading, isError };
 }

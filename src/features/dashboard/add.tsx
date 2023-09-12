@@ -33,6 +33,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { AddPost } from '@/services/blogApi';
 import Loading from '@/components/Loading';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const formSchema = z.object({
   title: z.string({
@@ -59,6 +60,10 @@ export default function Add() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blog'] });
       form.reset();
+      toast.success('Post added successfully');
+    },
+    onError: () => {
+      toast.error('Field to add post');
     },
   });
 

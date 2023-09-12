@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import Loading from '@/components/Loading';
 import { saveAs } from 'file-saver';
+import toast from 'react-hot-toast';
 
 function GalleryItem({
   src,
@@ -30,7 +31,10 @@ function GalleryItem({
   const [show, setShow] = useState(false);
 
   const { mutate, isLoading: isDeleting } = useMutation(deleteImage, {
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['gallery'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['gallery'] });
+      toast.success('Image deleted successfully');
+    },
   });
 
   const { mutate: download, isLoading: isDownloading } = useMutation(

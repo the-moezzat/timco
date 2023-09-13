@@ -18,6 +18,10 @@ const Thumbnail = styled.div<{ $src: string }>`
   background-image: url(${(props) => props.$src});
   background-size: cover;
   background-position: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export default function BlogItem({
@@ -29,7 +33,7 @@ export default function BlogItem({
   loading,
 }: BlogItemProps) {
   return (
-    <div className="grid grid-cols-[auto,1fr] gap-4 relative">
+    <div className="grid grid-cols-[auto,1fr] gap-4 relative max-md:grid-cols-1 max-md:grid-rows-2">
       {loading && (
         <div className="absolute inset-0 w-full h-full bg-gray-200/50 z-10 animate-pulse"></div>
       )}
@@ -46,7 +50,9 @@ export default function BlogItem({
                 day: 'numeric',
               })}
             </p>
-            <h2 className="text-3xl font-bold text-gray-700">{title}</h2>
+            <h2 className="text-3xl font-bold text-gray-700 max-md:text-2xl">
+              {title}
+            </h2>
             {/* <p>{content}</p> */}
           </div>
         </Link>

@@ -3,6 +3,7 @@ import Loading from '@/components/Loading';
 import AddSection from './addSection';
 import { getSections } from '@/services/currentApi';
 import { useQuery } from 'react-query';
+import DashboardTitle from './dashboardTitle';
 
 export default function DashboardCurrent() {
   const { data, isLoading: sectionsLoading } = useQuery(['sections'], {
@@ -11,10 +12,9 @@ export default function DashboardCurrent() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-10">
-        <h1 className="text-5xl font-bold">Current</h1>
+      <DashboardTitle title="Current">
         <AddSection />
-      </div>
+      </DashboardTitle>
 
       <div className="flex flex-col gap-4">
         {sectionsLoading && <Loading size="medium" type="full" />}

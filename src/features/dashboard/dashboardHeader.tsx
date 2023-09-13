@@ -11,11 +11,16 @@ const NavItem = styled(NavLink)`
   &.active {
     background-color: #f1f3f5;
   }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
 `;
 
 export default function DashboardHeader() {
   return (
-    <header className="flex items-center justify-between bg-white p-1 rounded-md">
+    <header className="flex items-center justify-between bg-white p-1 rounded-md ">
       <ul className="flex items-center gap-1">
         <li>
           <NavItem to="gallery">Gallery</NavItem>
@@ -28,7 +33,11 @@ export default function DashboardHeader() {
         </li>
       </ul>
       <Link to="/">
-        <Button variant={'outline'} size={'sm'}>
+        <Button
+          variant={'outline'}
+          size={'sm'}
+          className="max-md:text-xs max-md:h-7"
+        >
           Back to Main
         </Button>
       </Link>

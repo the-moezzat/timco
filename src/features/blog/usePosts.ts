@@ -16,9 +16,7 @@ export default function usePosts() {
   //   staleTime: Infinity,
   // });
 
-  const { data, isLoading, mutate, isError } = useMutation(getAllPosts, {
-    onSuccess: (data) => console.log(data),
-  });
+  const { data, isLoading, mutate, isError } = useMutation(getAllPosts);
   useEffect(
     function () {
       mutate({

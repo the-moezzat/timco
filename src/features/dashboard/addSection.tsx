@@ -51,7 +51,7 @@ export default function AddSection() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Add section</Button>
+        <Button className="max-md:h-8 max-md:text-xs">Add section</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

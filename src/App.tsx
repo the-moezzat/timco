@@ -9,7 +9,6 @@ import { Toaster } from 'react-hot-toast';
 import MainCurrent from './features/current/mainCurrent';
 import Model from './pages/model';
 
-import Home from './pages/home';
 const Dashboard = lazy(() => import('./pages/dashboard'));
 const Login = lazy(() => import('./features/dashboard/login'));
 const DashboardGallery = lazy(
@@ -42,17 +41,13 @@ function App() {
           <AnimatePresence initial={true} mode="wait">
             <Routes>
               <Route path="/" element={<AppLayout />}>
-                <Route index element={<Home imageDetails={imageDetails} />} />
+                <Route index element={<Model imageDetails={imageDetails} />} />
                 <Route path="current" element={<MainCurrent />} />
                 <Route path="blog" element={<Blog type="user" />} />
                 <Route path="blog/:blogId" element={<BlogPost />} />
                 <Route path="gallery" element={<MainGallery />} />
                 <Route path="contact" element={<Contact />} />
               </Route>
-              <Route
-                path="/model/:id"
-                element={<Model imageDetails={imageDetails} />}
-              />
               <Route path="login" element={<Login />} />
               <Route path="tim" element={<Dashboard />}>
                 <Route index element={<Navigate to="gallery" />} />

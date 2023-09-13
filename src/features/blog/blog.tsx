@@ -33,7 +33,7 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
 
   return (
     <>
-      <div className="max-w-5xl py-8 mx-auto font-inter px-4 space-y-6">
+      <div className="max-w-5xl py-8 mx-auto font-inter px-4 space-y-6 max-md:space-y-3 max-md:px-0">
         <Search />
         {isLoading && <div>Loading...</div>}
         <div className=" flex flex-col gap-8">

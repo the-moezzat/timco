@@ -76,7 +76,7 @@ export default function Add() {
     <div className=" z-50 ">
       <Sheet>
         <SheetTrigger>
-          <Button>Add new</Button>
+          <Button className="max-md:h-8 max-md:text-xs">Add new</Button>
         </SheetTrigger>
         <SheetContent side={'bottom'}>
           <SheetHeader>

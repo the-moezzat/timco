@@ -15,6 +15,7 @@ import Gallery from '../gallery/gallery';
 import usePics from '@/hooks/usePics';
 import GalleryItem from './galleryItem';
 import { toast } from 'react-hot-toast';
+import DashboardTitle from './dashboardTitle';
 
 function DashboardGallery() {
   const queryClient = useQueryClient();
@@ -29,7 +30,7 @@ function DashboardGallery() {
     },
     onError() {
       toast.error('Something went wrong');
-    }
+    },
   });
 
   function onSubmit(data: any) {
@@ -43,12 +44,13 @@ function DashboardGallery() {
   }
 
   return (
-    <div className=" space-y-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-5xl font-bold">Gallery</h1>
+    <div className=" space-y-8 max-md:space-y-2">
+      <DashboardTitle title="Gallery">
         <Dialog>
           <DialogTrigger>
-            <Button>Upload new memories</Button>
+            <Button className="max-md:h-8 max-md:text-xs">
+              Upload new memories
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -76,7 +78,7 @@ function DashboardGallery() {
             </form>
           </DialogContent>
         </Dialog>
-      </div>
+      </DashboardTitle>
       {isDataLoading ? (
         'loading'
       ) : (

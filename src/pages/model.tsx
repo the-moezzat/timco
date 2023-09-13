@@ -126,7 +126,7 @@ const Model = ({ imageDetails }: ModelProps) => {
                         transition: { delay: 0.2, ...transition },
                         // y: window.innerWidth > 1440 ? -1200 : -500,
                       }}
-                      className="max-md:h-[30vh] w-auto object-cover"
+                      className="max-md:h-[500px] h-[1000px] w-auto object-cover object-bottom max-lg:object-center max-md:object-center"
                     />
                   </motion.div>
                 </motion.div>

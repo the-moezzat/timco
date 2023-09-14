@@ -8,6 +8,7 @@ import Loading from './components/Loading';
 import { Toaster } from 'react-hot-toast';
 import MainCurrent from './features/current/mainCurrent';
 import Model from './pages/model';
+import Test from './features/dashboard/test';
 
 const Dashboard = lazy(() => import('./pages/dashboard'));
 const Login = lazy(() => import('./features/dashboard/login'));
@@ -43,7 +44,14 @@ function App() {
               <Route path="/" element={<AppLayout />}>
                 <Route index element={<Model imageDetails={imageDetails} />} />
                 <Route path="current" element={<MainCurrent />} />
-                <Route path="blog" element={<Blog type="user" />} />
+                <Route
+                  path="blog"
+                  element={
+                    <div className=" max-w-4xl mx-auto">
+                      <Blog type="user" />
+                    </div>
+                  }
+                />
                 <Route path="blog/:blogId" element={<BlogPost />} />
                 <Route path="gallery" element={<MainGallery />} />
                 <Route path="contact" element={<Contact />} />
@@ -51,6 +59,7 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="tim" element={<Dashboard />}>
                 <Route index element={<Navigate to="gallery" />} />
+                <Route path="test" element={<Test />} />
                 <Route path="current" element={<DashboardCurrent />} />
                 <Route path="gallery" element={<DashboardGallery />} />
                 <Route path="blog" element={<DashboardBlog />} />

@@ -15,11 +15,11 @@ export default function Footer() {
         orientation="horizontal"
         className="mb-2 bg-neutral-300 h-[0.5px] mt-2"
       />
-      <div className="flex justify-between gap-1 items-center mt-auto">
-        <p className="text-sm text-neutral-500 max-sm:text-xs">
+      <div className="flex justify-center gap-1 items-center mt-auto">
+        {/* <p className="text-sm text-neutral-500 max-sm:text-xs">
           @{new Date().getFullYear()} all right received tim co
-        </p>
-        <div className="flex gap-1 text-xl text-neutral-700">
+        </p> */}
+        <div className="flex gap-1 text-3xl text-neutral-700">
           <a href="https://github.com/tcco/">
             {''}
             <GithubLogo weight="fill" />
@@ -41,7 +41,7 @@ export default function Footer() {
             <img
               src="/strava.svg"
               alt="strave logo"
-              className="w-5 fill-neutral-700"
+              className="w-7 fill-neutral-700"
             />
           </a>
           <a href="https://www.instagram.com/timchi.co/">

@@ -4,7 +4,7 @@ type Item = Database['public']['Tables']['current_items']['Row'];
 
 export default function Item({ item }: { item: Item }) {
   return (
-    <li className="bg-white border border-gray-300 rounded-md p-2 flex gap-2">
+    <li className="flex gap-2">
       {item.link ? (
         item.description ? (
           <p className="flex flex-col">

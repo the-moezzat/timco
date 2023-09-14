@@ -31,6 +31,7 @@ export default function BlogItem({
   id,
   children,
   loading,
+  content,
 }: BlogItemProps) {
   return (
     <div className="grid grid-cols-[auto,1fr] gap-4 relative max-md:grid-cols-1 max-md:grid-rows-2">
@@ -50,10 +51,12 @@ export default function BlogItem({
                 day: 'numeric',
               })}
             </p>
-            <h2 className="text-3xl font-bold text-gray-700 max-md:text-2xl">
+            <h2 className="text-3xl font-bold text-gray-700 max-md:text-2xl mb-2">
               {title}
             </h2>
-            {/* <p>{content}</p> */}
+            <p className="text-sm text-gray-700">
+              {content.split(' ').slice(0, 25).join(' ')}....
+            </p>
           </div>
         </Link>
         {children && (

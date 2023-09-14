@@ -18,7 +18,6 @@ function MainGallery() {
         'Loading...'
       ) : (
         <div className="my-8">
-          <h1 className="text-6xl font-bold mb-8">Gallery</h1>
           <Gallery
             render={() =>
               data?.map((pic) => (

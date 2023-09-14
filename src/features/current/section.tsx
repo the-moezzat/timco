@@ -12,7 +12,7 @@ function Section({ section }: { section: Section }) {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-neutral-800">
+        <h2 className="text-xl font-semibold text-neutral-800 mb-3">
           {section.title}
         </h2>
       </div>

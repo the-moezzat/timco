@@ -37,12 +37,12 @@ export default function Search() {
   }
 
   return (
-    <div className="relative flex items-center gap-2">
+    <div className="relative flex items-center gap-2 w-full flex-grow shrink-0">
       <Select
         onValueChange={handleFilter}
         defaultValue={searchParams.get('filter') ?? ''}
       >
-        <SelectTrigger className="w-[180px] text-base  max-sm:text-sm">
+        <SelectTrigger className="w-[180px] text-base  max-sm:text-sm bg-[transparent]">
           <SelectValue placeholder="Filter" />
         </SelectTrigger>
         <SelectContent className="text-base">
@@ -63,7 +63,7 @@ export default function Search() {
 
       <Input
         placeholder="search for a component"
-        className="text-base"
+        className="text-base bg-[transparent]"
         value={search}
         onChange={handleSearch}
       />

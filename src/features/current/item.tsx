@@ -17,7 +17,9 @@ export default function Item({ item }: { item: Item }) {
             </span>
           </p>
         ) : (
-          item.title
+          <a href={item.link} className="underline" target="_blank">
+            - {item.title}
+          </a>
         )
       ) : item.description ? (
         <p className="flex flex-col">

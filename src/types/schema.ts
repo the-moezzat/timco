@@ -11,6 +11,8 @@ export interface Database {
     Tables: {
       blog: {
         Row: {
+          albums: Json | null;
+          archive: boolean;
           category: string | null;
           content: string | null;
           created_at: string;
@@ -20,6 +22,8 @@ export interface Database {
           title: string | null;
         };
         Insert: {
+          albums?: Json | null;
+          archive?: boolean;
           category?: string | null;
           content?: string | null;
           created_at?: string;
@@ -29,6 +33,8 @@ export interface Database {
           title?: string | null;
         };
         Update: {
+          albums?: Json | null;
+          archive?: boolean;
           category?: string | null;
           content?: string | null;
           created_at?: string;
@@ -91,7 +97,7 @@ export interface Database {
         };
         Relationships: [];
       };
-      images: {
+      gallery: {
         Row: {
           created_at: string;
           id: number;

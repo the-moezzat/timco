@@ -7,6 +7,7 @@ import { useState } from 'react';
 import Edit from './edit';
 import Search from './search';
 import usePosts from './usePosts';
+import toast from 'react-hot-toast';
 
 function Blog({ type }: { type: 'admin' | 'user' }) {
   const queryClient = useQueryClient();
@@ -28,6 +29,7 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
   const { mutate } = useMutation(deletePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(['blog']);
+      toast.success('Post deleted successfully');
     },
   });
 

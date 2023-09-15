@@ -15,6 +15,7 @@ import * as z from 'zod';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,6 +35,7 @@ import { AddPost } from '@/services/blogApi';
 import Loading from '@/components/Loading';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import AlbumsInput from './albumsInput';
 
 const formSchema = z.object({
   title: z.string({
@@ -50,6 +52,7 @@ const formSchema = z.object({
 
 export default function Add() {
   const queryClient = useQueryClient();
+  const [albums, setAlbums] = useState<FileList[]>([]);
   const [draft, setDraft] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,7 +72,7 @@ export default function Add() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const thumbnail: FileList = values.thumbnail;
-    mutate({ ...values, thumbnail, draft });
+    mutate({ ...values, thumbnail, draft, albums });
   }
 
   return (
@@ -157,10 +160,17 @@ export default function Add() {
                           className="text-base text-gray-8 min-h-[200px]"
                         />
                       </FormControl>
+                      <FormDescription>
+                        to put albums or images in post use "//=//=//=//" and
+                        upload them in order
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                <AlbumsInput onChange={(files) => setAlbums(files)} />
+
                 <div className="flex items-center gap-2 w-full">
                   <Button type="submit" disabled={isLoading} className="grow">
                     {isLoading ? (

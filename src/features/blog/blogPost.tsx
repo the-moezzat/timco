@@ -3,6 +3,7 @@ import { getPostById } from '@/services/blogApi';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
+import Album from '../dashboard/album';
 
 function BlogPost() {
   const { blogId } = useParams();
@@ -14,6 +15,10 @@ function BlogPost() {
   });
 
   const post = data && data[0];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const albums: any = post?.albums;
+
+  console.log(post);
 
   return (
     <div>
@@ -32,11 +37,17 @@ function BlogPost() {
           </p>
 
           <img src={post.thumbnail as string} alt="post" className="mb-12" />
-          <Markdown
-            children={post.content as string}
-            remarkPlugins={[remarkGfm]}
-            className=""
-          />
+          {post.content?.split('//=//=//=//=//').map((content, i) => (
+            <>
+              <Markdown
+                children={content}
+                remarkPlugins={[remarkGfm]}
+                className=" text-start"
+              />
+
+              <Album album={albums[i]} />
+            </>
+          ))}
         </div>
       )}
     </div>

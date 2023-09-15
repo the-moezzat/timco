@@ -55,7 +55,7 @@ export default function BlogItem({
               {title}
             </h2>
             <p className="text-sm text-gray-700">
-              {content.split(' ').slice(0, 25).join(' ')}....
+              {content.split(' ').slice(0, 15).join(' ')}....
             </p>
           </div>
         </Link>

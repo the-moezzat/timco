@@ -6,16 +6,39 @@ export async function AddPost({
   content,
   category,
   thumbnail,
+  albums,
 }: {
   title: string;
   content: string;
   thumbnail: FileList;
   category: string;
   draft: boolean;
+  albums: FileList[];
 }) {
   const imageName = `${Math.random()}-${thumbnail[0].name}`
-    .replace(' ', '_')
+    .replace(' ', '-')
     .replace('/', '');
+  const albumsPath: string[][] = [];
+
+  for (let i = 0; i < albums.length; i++) {
+    albumsPath[i] = [];
+    for (let j = 0; j < albums[i].length; j++) {
+      const imageName = `${Math.random()}-${albums[i].item(j)?.name}`
+        .replace(' ', '-')
+        .replace('/', '');
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('images')
+        .upload(imageName, albums[i].item(j) as File);
+
+      if (uploadError) throw new Error(uploadError.message);
+
+      albumsPath[i].push(
+        `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/images/${
+          uploadData.path
+        }`
+      );
+    }
+  }
 
   const { data: uploadData, error: uploadError } = await supabase.storage
     .from('images')
@@ -34,6 +57,7 @@ export async function AddPost({
         thumbnail: `${
           import.meta.env.VITE_SUPABASE_URL
         }/storage/v1/object/public/images/${uploadData.path}`,
+        albums: albumsPath,
       },
     ])
     .select();

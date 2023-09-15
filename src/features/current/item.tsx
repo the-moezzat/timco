@@ -9,7 +9,7 @@ export default function Item({ item }: { item: Item }) {
         item.description ? (
           <p className="flex flex-col">
             <a href={item.link} className="underline" target="_blank">
-              - {item.title}
+              &#8226; {item.title}
             </a>
 
             <span className="text-sm text-gray-600 ml-3">
@@ -18,16 +18,16 @@ export default function Item({ item }: { item: Item }) {
           </p>
         ) : (
           <a href={item.link} className="underline" target="_blank">
-            - {item.title}
+            &#8226; {item.title}
           </a>
         )
       ) : item.description ? (
         <p className="flex flex-col">
-          - {item.title}
+          &#8226; {item.title}
           <span className="text-sm text-gray-600 ml-3">{item.description}</span>
         </p>
       ) : (
-        `- ${item.title}`
+        <>&#8226; {item.title}</>
       )}
     </li>
   );

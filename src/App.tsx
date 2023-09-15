@@ -47,8 +47,10 @@ function App() {
                 <Route
                   path="blog"
                   element={
-                    <div className=" max-w-4xl mx-auto">
-                      <Blog type="user" />
+                    <div>
+                      <div className=" max-w-4xl mx-auto">
+                        <Blog type="user" />
+                      </div>
                     </div>
                   }
                 />

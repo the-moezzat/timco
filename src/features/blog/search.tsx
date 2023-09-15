@@ -1,4 +1,4 @@
-import { X } from '@phosphor-icons/react';
+import { MagnifyingGlass, X } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
@@ -60,13 +60,15 @@ export default function Search() {
           </SelectItem>
         </SelectContent>
       </Select>
-
-      <Input
-        placeholder="search for a component"
-        className="text-base bg-[transparent]"
-        value={search}
-        onChange={handleSearch}
-      />
+      <div className="relative w-full">
+        <MagnifyingGlass className="absolute top-1/2 -translate-y-1/2 left-2 text-lg text-gray-800" />
+        <Input
+          placeholder="Search"
+          className="text-base bg-[transparent] pl-10"
+          value={search}
+          onChange={handleSearch}
+        />
+      </div>
       {search.length > 0 && (
         <span className="absolute right-0 top-1/2 -translate-y-1/2">
           <Button

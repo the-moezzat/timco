@@ -13,35 +13,35 @@ export interface Database {
         Row: {
           albums: Json | null;
           archive: boolean;
-          category: string | null;
+          category: string;
           content: string | null;
           created_at: string;
           draft: boolean;
           id: number;
           thumbnail: string | null;
-          title: string | null;
+          title: string;
         };
         Insert: {
           albums?: Json | null;
           archive?: boolean;
-          category?: string | null;
+          category?: string;
           content?: string | null;
           created_at?: string;
           draft?: boolean;
           id?: number;
           thumbnail?: string | null;
-          title?: string | null;
+          title?: string;
         };
         Update: {
           albums?: Json | null;
           archive?: boolean;
-          category?: string | null;
+          category?: string;
           content?: string | null;
           created_at?: string;
           draft?: boolean;
           id?: number;
           thumbnail?: string | null;
-          title?: string | null;
+          title?: string;
         };
         Relationships: [];
       };

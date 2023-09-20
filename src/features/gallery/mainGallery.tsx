@@ -24,6 +24,7 @@ function MainGallery() {
                 <img
                   src={pic.img as string}
                   alt={pic.name as string}
+                  loading='lazy'
                   onClick={() => {
                     setOpen(true);
                     setIndex(data?.findIndex((p) => p.id === pic.id) || 0);

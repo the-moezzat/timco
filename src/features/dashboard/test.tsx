@@ -1,50 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import Dnd from '../dnd';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { Textarea } from '@/components/ui/textarea';
-// import { useMutation, useQueryClient } from 'react-query';
-// import { AddPost } from '@/services/blogApi';
-// import toast from 'react-hot-toast';
-import Loading from '@/components/Loading';
-import { useState } from 'react';
-import AlbumsInput from './albumsInput';
+// import { Button } from '@/components/ui/button';
+// import { Input } from '@/components/ui/input';
+// import { zodResolver } from '@hookform/resolvers/zod';
+// import * as z from 'zod';
+// import {
+//   Form,
+//   FormControl,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from '@/components/ui/form';
+// import { useForm } from 'react-hook-form';
+// import { Textarea } from '@/components/ui/textarea';
+// import Loading from '@/components/Loading';
+// import { useState } from 'react';
+// import AlbumsInput from './albumsInput';
 
-const formSchema = z.object({
-  thumbnail: z.any(),
-  content: z.string({
-    required_error: 'Content is required',
-  }),
-});
+// const formSchema = z.object({
+//   thumbnail: z.any(),
+//   content: z.string({
+//     required_error: 'Content is required',
+//   }),
+// });
 
 export default function Test() {
-  const [albums, setAlbum] = useState<FileList[]>([]);
-  // const [albumNum, setAlbumNum] = useState(1);
-  const [draft, setDraft] = useState(false);
-  const isLoading = false;
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+  // const [albums, setAlbum] = useState<FileList[]>([]);
+  // // const [albumNum, setAlbumNum] = useState(1);
+  // const [draft, setDraft] = useState(false);
+  // const isLoading = false;
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  // });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const thumbnail: FileList = values.thumbnail;
-    console.log({ ...values, thumbnail, draft, albums });
-  }
+  // function onSubmit(values: z.infer<typeof formSchema>) {
+  //   const thumbnail: FileList = values.thumbnail;
+  //   console.log({ ...values, thumbnail, draft, albums });
+  // }
 
   return (
     <div className=" z-50 ">
-      <div className="flex items-center justify-center mt-4 ">
+      {/* <div className="flex items-center justify-center mt-4 ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -112,6 +111,9 @@ export default function Test() {
             </div>
           </form>
         </Form>
+      </div> */}
+      <div>
+        <Dnd />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -15,29 +15,26 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import { Button } from '@/components/ui/button';
-
 import { SortableItem } from './sortableItem';
 
-export default function Drag({
+export default function Sort({
   onChange,
+  albums,
 }: {
-  onChange: (album: FileList[]) => void;
+  onChange: (album: string[][]) => void;
+  albums: string[][];
 }) {
-  const [album, setAlbum] = useState<{ [key: string]: FileList | undefined }>(
-    {}
+  const alb = useMemo(() => albums, [albums]);
+
+  const [items, setItems] = useState(() =>
+    alb.map((album) => JSON.stringify(album))
   );
-  const [items, setItems] = useState(Object.keys(album));
   // console.log(items);
 
   useEffect(() => {
-    onChange(
-      items
-        .map((item) => album[item])
-        .filter((item) => item !== undefined) as FileList[]
-    );
+    onChange(items.map((item) => JSON.parse(item)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [album, items]);
+  }, [items]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -50,15 +47,9 @@ export default function Drag({
     console.log('deleted');
 
     if (items.length < 2) {
-      setAlbum({});
       setItems((state) => state.filter((item) => item !== index));
       return;
     }
-
-    setAlbum((state) => ({
-      ...state,
-      [index]: undefined,
-    }));
 
     setItems((state) => state.filter((item) => item !== index));
   }
@@ -70,25 +61,17 @@ export default function Drag({
       onDragEnd={handleDragEnd}
     >
       <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        <div className="flex flex-col gap-2">
+        <div className=" space-y-2 mb-2">
           {items.map((id, index) => (
             <SortableItem
               key={id}
               id={id}
               index={index}
               onDelete={handleDelete}
-              onAddition={setAlbum}
             />
           ))}
         </div>
       </SortableContext>
-      <Button
-        type="button"
-        onClick={() => setItems((state) => [...state, `${Math.random()}`])}
-        className=" self-start"
-      >
-        Add album
-      </Button>
     </DndContext>
   );
 

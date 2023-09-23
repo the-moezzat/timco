@@ -35,6 +35,8 @@ import Loading from '@/components/Loading';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Database } from '@/types/schema';
+import Sort from '../sort/sort';
+import Drag from '../drag/drag';
 
 interface EditBlogProps {
   defaultValues: Database['public']['Tables']['blog']['Row'];
@@ -60,6 +62,8 @@ const formSchema = z.object({
   category: z.string({
     required_error: 'Category is required',
   }),
+  oldAlbums: z.any(),
+  newAlbums: z.any().optional(),
 });
 
 export default function Edit({ defaultValues }: EditBlogProps) {
@@ -70,15 +74,6 @@ export default function Edit({ defaultValues }: EditBlogProps) {
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues as z.infer<typeof formSchema>,
   });
-
-  console.log(defaultValues);
-
-  // console.log(
-  //   defaultValues.albums?.map((album, i) => ({
-  //     id: `album-${i}`,
-  //     content: album,
-  //   }))
-  // );
 
   const { mutate, isLoading } = useMutation({
     mutationFn: updatePost,
@@ -100,7 +95,9 @@ export default function Edit({ defaultValues }: EditBlogProps) {
       thumbnail: (thumbnail.length > 0
         ? thumbnail
         : defaultValues.thumbnail) as string | FileList,
-      draft: draft,
+      draft,
+      oldAlbumsOrder: values.oldAlbums as string[][],
+      newAlbums: values.newAlbums as FileList[],
     };
     console.log(values);
     console.log(newPost);
@@ -205,6 +202,41 @@ export default function Edit({ defaultValues }: EditBlogProps) {
                     </FormItem>
                   )}
                 />
+                {defaultValues?.albums && (
+                  <FormField
+                    control={form.control}
+                    name={'oldAlbums'}
+                    render={({ field }) => (
+                      <FormItem className="border p-2 rounded-md">
+                        <FormLabel>Albums</FormLabel>
+                        <FormControl>
+                          <Sort
+                            albums={defaultValues?.albums as string[][]}
+                            onChange={(order) => field.onChange(order)}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                )}
+
+                <FormField
+                  control={form.control}
+                  name="newAlbums"
+                  render={({ field }) => (
+                    <FormItem className="border rounded-md p-2 ">
+                      {/* <FormLabel>Albums</FormLabel> */}
+                      <FormControl>
+                        <Drag
+                          onChange={(files) => {
+                            field.onChange(files);
+                          }}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
                 <div className="flex items-center gap-2 w-full">
                   <Button
                     type="submit"

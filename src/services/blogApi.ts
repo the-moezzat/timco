@@ -1,24 +1,6 @@
-// import { AddAlbum } from './albumApi';
 import { supabase } from './supabase';
 
-export async function AddPost({
-  title,
-  draft,
-  content,
-  category,
-  thumbnail,
-  albums,
-}: {
-  title: string;
-  content: string;
-  thumbnail: FileList;
-  category: string;
-  draft: boolean;
-  albums: FileList[];
-}) {
-  const imageName = `${Math.random()}-${thumbnail[0].name}`
-    .replace(' ', '-')
-    .replace('/', '');
+async function uploadAlbums(albums: FileList[]) {
   const albumsPath: string[][] = [];
 
   for (let i = 0; i < albums.length; i++) {
@@ -39,8 +21,31 @@ export async function AddPost({
         }`
       );
     }
-    // await AddAlbum(albumsPath[i]);
   }
+
+  return albumsPath;
+}
+
+export async function AddPost({
+  title,
+  draft,
+  content,
+  category,
+  thumbnail,
+  albums,
+}: {
+  title: string;
+  content: string;
+  thumbnail: FileList;
+  category: string;
+  draft: boolean;
+  albums: FileList[];
+}) {
+  const imageName = `${Math.random()}-${thumbnail[0].name}`
+    .replace(' ', '-')
+    .replace('/', '');
+
+  const albumsPath: string[][] = await uploadAlbums(albums);
 
   const { data: uploadData, error: uploadError } = await supabase.storage
     .from('images')
@@ -118,6 +123,8 @@ export async function updatePost({
   content,
   category,
   thumbnail,
+  oldAlbumsOrder,
+  newAlbums,
 }: {
   id: string;
   draft: boolean;
@@ -125,6 +132,8 @@ export async function updatePost({
   content: string;
   category: string;
   thumbnail: FileList | string;
+  oldAlbumsOrder: string[][];
+  newAlbums: FileList[];
 }) {
   let thumbnailPath = thumbnail as string;
 
@@ -144,9 +153,20 @@ export async function updatePost({
     }/storage/v1/object/public/images/${uploadData.path}`;
   }
 
+  const albumsPath = await uploadAlbums(newAlbums);
+
+  const albums = [...oldAlbumsOrder, ...albumsPath];
+
   const { data, error } = await supabase
     .from('blog')
-    .update({ title, content, thumbnail: thumbnailPath, draft, category })
+    .update({
+      title,
+      content,
+      thumbnail: thumbnailPath,
+      draft,
+      category,
+      albums,
+    })
     .eq('id', id)
     .select();
 

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 // import Dnd from '../dnd';
-import Drag from '../drag/drag';
+import Drag from './features/drag/drag';
+import Sort from './features/sort/sort';
 
 // import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
@@ -115,6 +116,27 @@ export default function Test() {
       </div> */}
       <div>
         <Drag onChange={(files) => console.log(files)} />
+        <Sort
+          onChange={(files) => console.log(files)}
+          albums={[
+            [
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.7268579448436101-patrick-perkins-3wylDrjxH-E-unsplash.jpg',
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.5003624091367382-giorgio-trovato-5TXz228u4eo-unsplash.jpg',
+            ],
+            [
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.6328017245901563-kari-shea-tOVmshavtoo-unsplash.jpg',
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.4236470822301701-jason-leung-PjloV_e0zX8-unsplash.jpg',
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.9835074200749083-sven-brandsma-GZ5cKOgeIB0-unsplash.jpg',
+            ],
+            [
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.4195098862250213-chuttersnap-ftG8WcHwg7o-unsplash.jpg',
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.7465268595841614-kenny-eliason-Cx188P-L_HY-unsplash.jpg',
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.19801460522628012-steven-ungermann-0dAXtVhtBgg-unsplash.jpg',
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.5735370067384582-chuttersnap-JUO3MGEHTrQ-unsplash.jpg',
+              'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.17792541437406562-frugal-flyer-NYpT6hsGQoc-unsplash.jpg',
+            ],
+          ]}
+        />
 
         {/* <Dnd
           albumsId={[

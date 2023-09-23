@@ -1,22 +1,15 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { DotsSixVertical, Trash } from '@phosphor-icons/react';
+import { DotsSixVertical } from '@phosphor-icons/react';
+// import { Button } from '@/components/ui/button';
+// import { Trash } from '@phosphor-icons/react';
 
 export function SortableItem({
   id,
-  onDelete,
-  onAddition,
 }: {
   id: string;
   index: number;
   onDelete: (index: string) => void;
-  onAddition: React.Dispatch<
-    React.SetStateAction<{
-      [key: number]: FileList | undefined;
-    }>
-  >;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
@@ -31,21 +24,11 @@ export function SortableItem({
       <div className="flex gap-2">
         <div className=" cursor-grab active:first-line:cursor-grabbing">
           <DotsSixVertical size={32} />
-        </div>{' '}
-        <Input
-          type="file"
-          accept="image/*"
-          multiple
-          // value={album[index] as FileList}
-          className="text-base text-gray-8"
-          onChange={(e) => {
-            onAddition((state) => ({
-              ...state,
-              [id]: e.target.files as FileList,
-            }));
-          }}
-        />
-        <Button
+        </div>
+        <div className="text-sm bg-white border p-2 rounded-md flex-1">
+          Item {JSON.parse(id).length}
+        </div>
+        {/* <Button
           type="button"
           size={'icon'}
           variant={'destructive'}
@@ -56,7 +39,7 @@ export function SortableItem({
           }}
         >
           <Trash />
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

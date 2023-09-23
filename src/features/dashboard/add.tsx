@@ -35,7 +35,7 @@ import { AddPost } from '@/services/blogApi';
 import Loading from '@/components/Loading';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import AlbumsInput from './albumsInput';
+import Drag from '../drag/drag';
 
 const formSchema = z.object({
   title: z.string({
@@ -48,11 +48,12 @@ const formSchema = z.object({
   category: z.string({
     required_error: 'Category is required',
   }),
+  albums: z.any().optional(),
 });
 
 export default function Add() {
   const queryClient = useQueryClient();
-  const [albums, setAlbums] = useState<FileList[]>([]);
+  // const [albums, setAlbums] = useState<FileList[]>([]);
   const [draft, setDraft] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -72,6 +73,9 @@ export default function Add() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const thumbnail: FileList = values.thumbnail;
+    const albums: FileList[] = values.albums;
+    // console.log(values);
+    // console.log({ ...values, thumbnail, draft });
     mutate({ ...values, thumbnail, draft, albums });
   }
 
@@ -169,7 +173,17 @@ export default function Add() {
                   )}
                 />
 
-                <AlbumsInput onChange={(files) => setAlbums(files)} />
+                <FormField
+                  control={form.control}
+                  name="albums"
+                  render={({ field }) => (
+                    <Drag
+                      onChange={(files) => {
+                        field.onChange(files);
+                      }}
+                    />
+                  )}
+                />
 
                 <div className="flex items-center gap-2 w-full">
                   <Button type="submit" disabled={isLoading} className="grow">

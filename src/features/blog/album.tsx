@@ -10,20 +10,22 @@ export default function Album({ album }: { album: string[] }) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
+  // console.log(album);
+
   return (
     <div>
       <div
-        className={`grid ${album.length === 1 ? 'grid-cols-1' : ''} ${
-          album.length === 2 ? 'grid-cols-2' : ''
+        className={`grid ${album?.length === 1 ? 'grid-cols-1' : ''} ${
+          album?.length === 2 ? 'grid-cols-2' : ''
         } ${
-          album.length > 2 ? 'grid-cols-3 max-md:grid-cols-2' : ''
+          album?.length > 2 ? 'grid-cols-3 max-md:grid-cols-2' : ''
         } max-sm:grid-cols-1 gap-2 my-6`}
       >
-        {album.map((item, index) => {
+        {album?.map((item, index) => {
           return (
             <div
               className={`min-w-[200px] ${
-                album.length > 1 ? 'h-[250px]' : ''
+                album?.length > 1 ? 'h-[250px]' : ''
               } cursor-pointer relative group`}
               key={index}
               onClick={() => {

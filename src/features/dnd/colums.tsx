@@ -18,27 +18,24 @@ const AlbumList = styled.div`
 `;
 
 export default function Column({
-  column,
-  tasks,
+  albums,
 }: {
-  column: Data['columns']['column-1'];
-  tasks: Data['tasks']['task-1'][];
+  albums: Data['columns']['taskIds'];
 }) {
+  // console.log(albums);
   return (
     <Container>
-      <Title>{column.title}</Title>
-      <div>
-        <Droppable droppableId={column.id}>
-          {(provided) => (
-            <AlbumList ref={provided.innerRef} {...provided.droppableProps}>
-              {tasks.map((task, index) => (
-                <Task key={task.id} task={task} index={index} />
-              ))}
-              {provided.placeholder}
-            </AlbumList>
-          )}
-        </Droppable>
-      </div>
+      <Title>Albums</Title>
+      <Droppable droppableId={'column-1'}>
+        {(provided) => (
+          <AlbumList ref={provided.innerRef} {...provided.droppableProps}>
+            {albums.map((album, index) => (
+              <Task key={album} task={album} index={index} />
+            ))}
+            {provided.placeholder}
+          </AlbumList>
+        )}
+      </Droppable>
     </Container>
   );
 }

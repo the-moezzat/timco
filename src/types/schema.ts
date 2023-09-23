@@ -9,6 +9,24 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      album: {
+        Row: {
+          created_at: string;
+          id: number;
+          images: string[] | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          images?: string[] | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          images?: string[] | null;
+        };
+        Relationships: [];
+      };
       blog: {
         Row: {
           albums: Json | null;

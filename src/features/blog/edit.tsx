@@ -34,17 +34,11 @@ import { updatePost } from '@/services/blogApi';
 import Loading from '@/components/Loading';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { Database } from '@/types/schema';
 
 interface EditBlogProps {
-  defaultValues: {
-    category: string | null;
-    content: string | null;
-    created_at: string;
-    draft: boolean;
-    id: number;
-    thumbnail: string | null;
-    title: string | null;
-  };
+  defaultValues: Database['public']['Tables']['blog']['Row'];
+  albumsId?: string[];
 }
 
 const Thumbnail = styled.div<{ $src: string }>`
@@ -76,6 +70,15 @@ export default function Edit({ defaultValues }: EditBlogProps) {
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues as z.infer<typeof formSchema>,
   });
+
+  console.log(defaultValues);
+
+  // console.log(
+  //   defaultValues.albums?.map((album, i) => ({
+  //     id: `album-${i}`,
+  //     content: album,
+  //   }))
+  // );
 
   const { mutate, isLoading } = useMutation({
     mutationFn: updatePost,

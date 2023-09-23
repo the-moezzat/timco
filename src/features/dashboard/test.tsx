@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import Dnd from '../dnd';
+// import Dnd from '../dnd';
+import Drag from '../drag/drag';
 
 // import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
@@ -113,7 +114,15 @@ export default function Test() {
         </Form>
       </div> */}
       <div>
-        <Dnd />
+        <Drag onChange={(files) => console.log(files)} />
+
+        {/* <Dnd
+          albumsId={[
+            'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.8262905654904962-chuttersnap-ftG8WcHwg7o-unsplash.jpg',
+
+            'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.5000781112561725-chuttersnap-UhCT6punsplash.jpg',
+          ]}
+        /> */}
       </div>
     </div>
   );

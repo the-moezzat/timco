@@ -76,7 +76,11 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
                       {type === 'admin' && (
                         <div className="flex gap-2 justify-end">
                           {/* <EditBlog defaultValues={post} /> */}
-                          <Edit defaultValues={post} />
+                          {}
+                          <Edit
+                            defaultValues={post}
+                            // albumsId={post.albums?.map((album) => album[0])}
+                          />
                           <Button
                             variant={'destructive'}
                             onClick={() => {

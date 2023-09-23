@@ -3,7 +3,7 @@ import { getPostById } from '@/services/blogApi';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
-import Album from '../dashboard/album';
+import Album from './album';
 
 function BlogPost() {
   const { blogId } = useParams();
@@ -37,7 +37,7 @@ function BlogPost() {
           </p>
 
           <img src={post.thumbnail as string} alt="post" className="mb-12" />
-          {post.content?.split('//=//=//=//=//').map((content, i) => (
+          {post.content?.split('//=//=//=//').map((content, i) => (
             <>
               <Markdown
                 children={content}

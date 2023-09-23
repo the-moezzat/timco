@@ -1,3 +1,4 @@
+// import { AddAlbum } from './albumApi';
 import { supabase } from './supabase';
 
 export async function AddPost({
@@ -38,6 +39,7 @@ export async function AddPost({
         }`
       );
     }
+    // await AddAlbum(albumsPath[i]);
   }
 
   const { data: uploadData, error: uploadError } = await supabase.storage

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import initialData from './inital-data';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Trash } from '@phosphor-icons/react';
+import { useState } from 'react';
 
 type Data = typeof initialData;
 
@@ -17,17 +21,48 @@ export default function Task({
   index,
 }: {
   index: number;
-  task: Data['tasks']['task-1'];
+  task: Data['columns']['taskIds'][0];
 }) {
+  const [, setAlbum] = useState<{ [key: number]: FileList | undefined }>({});
+
   return (
-    <Draggable draggableId={task.id} index={index}>
+    <Draggable draggableId={task} index={index}>
       {(provided) => (
         <Container
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          {task.content}
+          <div className="flex gap-2">
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              // value={album[index] as FileList}
+              className="text-base text-gray-8"
+              onChange={(e) => {
+                setAlbum((state) => ({
+                  ...state,
+                  [index]: e.target.files as FileList,
+                }));
+              }}
+              key={index}
+            />
+            <Button
+              type="button"
+              size={'icon'}
+              variant={'destructive'}
+              className="text-xl"
+              onClick={() => {
+                setAlbum((state) => ({
+                  ...state,
+                  [index]: undefined,
+                }));
+              }}
+            >
+              <Trash />
+            </Button>
+          </div>
         </Container>
       )}
     </Draggable>

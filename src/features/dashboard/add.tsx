@@ -30,11 +30,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useMutation, useQueryClient } from 'react-query';
-import { AddPost } from '@/services/blogApi';
-import Loading from '@/components/Loading';
+// import { useMutation, useQueryClient } from 'react-query';
+// import { AddPost } from '@/services/blogApi';
+// import Loading from '@/components/Loading';
+// import toast from 'react-hot-toast';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import Drag from '../drag/drag';
 
 const formSchema = z.object({
@@ -51,32 +51,42 @@ const formSchema = z.object({
   albums: z.any().optional(),
 });
 
-export default function Add() {
-  const queryClient = useQueryClient();
+export default function Add({
+  addFn,
+}: {
+  addFn: (values: {
+    thumbnail: FileList;
+    draft: boolean;
+    title: string;
+    content: string;
+    category: string;
+    albums?: any;
+  }) => void;
+}) {
+  // const queryClient = useQueryClient();
   // const [albums, setAlbums] = useState<FileList[]>([]);
   const [draft, setDraft] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: AddPost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blog'] });
-      form.reset();
-      toast.success('Post added successfully');
-    },
-    onError: () => {
-      toast.error('Field to add post');
-    },
-  });
+  // const { mutate, isLoading } = useMutation({
+  //   mutationFn: AddPost,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['blog'] });
+  //     form.reset();
+  //     toast.success('Post added successfully');
+  //   },
+  //   onError: () => {
+  //     toast.error('Field to add post');
+  //   },
+  // });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const thumbnail: FileList = values.thumbnail;
     const albums: FileList[] = values.albums;
     // console.log(values);
-    // console.log({ ...values, thumbnail, draft });
-    mutate({ ...values, thumbnail, draft, albums });
+    addFn({ ...values, thumbnail, draft, albums });
   }
 
   return (
@@ -102,11 +112,7 @@ export default function Add() {
                     <FormItem>
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input
-                          {...field}
-                          className="text-base text-gray-8"
-                          disabled={isLoading}
-                        />
+                        <Input {...field} className="text-base text-gray-8" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -115,7 +121,6 @@ export default function Add() {
                 <FormItem>
                   <FormLabel>Thumbnail</FormLabel>
                   <Input
-                    disabled={isLoading}
                     type="file"
                     accept="image/*"
                     className="text-base text-gray-8"
@@ -133,7 +138,6 @@ export default function Add() {
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        disabled={isLoading}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -159,7 +163,6 @@ export default function Add() {
                       <FormLabel>Content</FormLabel>
                       <FormControl>
                         <Textarea
-                          disabled={isLoading}
                           {...field}
                           className="text-base text-gray-8 min-h-[200px]"
                         />
@@ -186,38 +189,15 @@ export default function Add() {
                 />
 
                 <div className="flex items-center gap-2 w-full">
-                  <Button type="submit" disabled={isLoading} className="grow">
-                    {isLoading ? (
-                      <div className=" flex gap-2 items-center">
-                        <Loading
-                          type="self"
-                          size="small"
-                          className=" text-white"
-                        />
-                        Publishing...
-                      </div>
-                    ) : (
-                      'Publish'
-                    )}
+                  <Button type="submit" className="grow">
+                    'Publish'
                   </Button>
                   <Button
                     type="submit"
-                    disabled={isLoading}
                     variant={'outline'}
                     onClick={() => setDraft(true)}
                   >
-                    {isLoading ? (
-                      <div className=" flex gap-2 items-center">
-                        <Loading
-                          type="self"
-                          size="small"
-                          className=" text-white"
-                        />
-                        Publishing...
-                      </div>
-                    ) : (
-                      'Save as draft'
-                    )}
+                    'Save as draft'
                   </Button>
                 </div>
               </form>

@@ -109,6 +109,18 @@ export async function deletePost(id: string) {
 
   if (error) throw new Error(error.message);
 
+  const albums = data[0].albums as string[][];
+
+  for (let i = 0; i < albums?.length; i++) {
+    for (let j = 0; j < albums[i].length; j++) {
+      const { error: deleteError } = await supabase.storage
+        .from('images')
+        .remove([albums[i][j].split('/').at(-1) as string]);
+
+      if (deleteError) throw new Error(deleteError.message);
+    }
+  }
+
   const { error: DeleteError } = await supabase.storage
     .from('images')
     .remove([data[0].thumbnail?.split('/').at(-1) as string]);

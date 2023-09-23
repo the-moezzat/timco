@@ -18,7 +18,7 @@ function Section({ section }: { section: Section }) {
       </div>
       {isLoading && 'Loading...'}
       <div className=" space-y-2">
-        <ul className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-1 items-start">
+        <ul className="grid grid-cols-1 gap-2 items-start">
           {data?.map((item) => (
             <Item key={item.id} item={item} />
           ))}

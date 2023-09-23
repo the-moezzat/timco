@@ -1,4 +1,4 @@
-import { deletePost } from '@/services/blogApi';
+import { deletePost, updatePost } from '@/services/blogApi';
 import { useMutation, useQueryClient } from 'react-query';
 import BlogItem from './blogItem';
 import { Button } from '@/components/ui/button';
@@ -53,6 +53,21 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
     },
   });
 
+  const { mutate: edit, isLoading: editing } = useMutation({
+    mutationFn: updatePost,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['blog'] });
+      queryClient.invalidateQueries({
+        queryKey: ['post', String(data[0].id)],
+      });
+
+      toast.success('Post updated successfully');
+    },
+    onError: () => {
+      toast.error('Something went wrong');
+    },
+  });
+
   return (
     <div className="px-4 mt-6">
       <Search />
@@ -77,10 +92,7 @@ function Blog({ type }: { type: 'admin' | 'user' }) {
                         <div className="flex gap-2 justify-end">
                           {/* <EditBlog defaultValues={post} /> */}
                           {}
-                          <Edit
-                            defaultValues={post}
-                            // albumsId={post.albums?.map((album) => album[0])}
-                          />
+                          <Edit defaultValues={post} editFn={edit} isLoading={editing} />
                           <Button
                             variant={'destructive'}
                             onClick={() => {

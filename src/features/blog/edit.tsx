@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -29,18 +30,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useMutation, useQueryClient } from 'react-query';
-import { updatePost } from '@/services/blogApi';
 import Loading from '@/components/Loading';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Database } from '@/types/schema';
 import Sort from '../sort/sort';
 import Drag from '../drag/drag';
-
 interface EditBlogProps {
   defaultValues: Database['public']['Tables']['blog']['Row'];
-  albumsId?: string[];
+  editFn: (newPost: {
+    id: string;
+    thumbnail: string | FileList;
+    draft: boolean;
+    oldAlbumsOrder: string[][];
+    newAlbums: FileList[];
+    title: string;
+    content: string;
+    category: string;
+    oldAlbums?: any;
+  }) => void;
+  isLoading: boolean;
 }
 
 const Thumbnail = styled.div<{ $src: string }>`
@@ -66,24 +75,16 @@ const formSchema = z.object({
   newAlbums: z.any().optional(),
 });
 
-export default function Edit({ defaultValues }: EditBlogProps) {
-  const queryClient = useQueryClient();
+export default function Edit({
+  defaultValues,
+  editFn,
+  isLoading,
+}: EditBlogProps) {
   const [draft, setDraft] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues as z.infer<typeof formSchema>,
-  });
-
-  const { mutate, isLoading } = useMutation({
-    mutationFn: updatePost,
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.invalidateQueries({ queryKey: ['blog'] });
-      queryClient.invalidateQueries({
-        queryKey: ['post', String(data[0].id)],
-      });
-    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -101,7 +102,7 @@ export default function Edit({ defaultValues }: EditBlogProps) {
     };
     console.log(values);
     console.log(newPost);
-    mutate(newPost);
+    editFn(newPost);
   }
 
   return (
@@ -237,46 +238,48 @@ export default function Edit({ defaultValues }: EditBlogProps) {
                   )}
                 />
 
-                <div className="flex items-center gap-2 w-full">
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="grow"
-                    onClick={() => setDraft(false)}
-                  >
-                    {isLoading ? (
-                      <div className=" flex gap-2 items-center">
-                        <Loading
-                          type="self"
-                          size="small"
-                          className=" text-white"
-                        />
-                        Publishing...
-                      </div>
-                    ) : (
-                      'Publish'
-                    )}
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    variant={'outline'}
-                    onClick={() => setDraft(true)}
-                  >
-                    {isLoading ? (
-                      <div className=" flex gap-2 items-center">
-                        <Loading
-                          type="self"
-                          size="small"
-                          className=" text-white"
-                        />
-                        Publishing...
-                      </div>
-                    ) : (
-                      'Save as draft'
-                    )}
-                  </Button>
-                </div>
+                <SheetClose>
+                  <div className="flex items-center gap-2 w-full">
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="grow"
+                      onClick={() => setDraft(false)}
+                    >
+                      {isLoading ? (
+                        <div className=" flex gap-2 items-center">
+                          <Loading
+                            type="self"
+                            size="small"
+                            className=" text-white"
+                          />
+                          Publishing...
+                        </div>
+                      ) : (
+                        'Publish'
+                      )}
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      variant={'outline'}
+                      onClick={() => setDraft(true)}
+                    >
+                      {isLoading ? (
+                        <div className=" flex gap-2 items-center">
+                          <Loading
+                            type="self"
+                            size="small"
+                            className=" text-white"
+                          />
+                          Publishing...
+                        </div>
+                      ) : (
+                        'Save as draft'
+                      )}
+                    </Button>
+                  </div>
+                </SheetClose>
               </form>
             </Form>
           </div>

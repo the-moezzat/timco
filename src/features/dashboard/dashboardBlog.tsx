@@ -36,11 +36,12 @@ function DashboardBlog() {
         <Add
           addFn={
             mutate as (values: {
-              thumbnail: FileList;
+              thumbnail?: FileList;
               draft: boolean;
               title: string;
               content: string;
               category: string;
+              createdAt?: string;
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               albums?: any;
             }) => void

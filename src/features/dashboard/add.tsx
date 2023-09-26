@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -36,12 +37,13 @@ import {
 // import toast from 'react-hot-toast';
 import { useState } from 'react';
 import Drag from '../drag/drag';
+import Calender from '@/components/date';
 
 const formSchema = z.object({
   title: z.string({
     required_error: 'Title is required',
   }),
-  thumbnail: z.any(),
+  thumbnail: z.any().optional(),
   content: z.string({
     required_error: 'Content is required',
   }),
@@ -49,18 +51,20 @@ const formSchema = z.object({
     required_error: 'Category is required',
   }),
   albums: z.any().optional(),
+  createdAt: z.string().optional(),
 });
 
 export default function Add({
   addFn,
 }: {
   addFn: (values: {
-    thumbnail: FileList;
+    thumbnail?: FileList;
     draft: boolean;
     title: string;
     content: string;
     category: string;
     albums?: any;
+    createdAt?: string;
   }) => void;
 }) {
   // const queryClient = useQueryClient();
@@ -68,6 +72,9 @@ export default function Add({
   const [draft, setDraft] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      createdAt: new Date().toISOString(),
+    },
   });
 
   // const { mutate, isLoading } = useMutation({
@@ -85,8 +92,8 @@ export default function Add({
   function onSubmit(values: z.infer<typeof formSchema>) {
     const thumbnail: FileList = values.thumbnail;
     const albums: FileList[] = values.albums;
-    // console.log(values);
     addFn({ ...values, thumbnail, draft, albums });
+    form.reset();
   }
 
   return (
@@ -129,6 +136,11 @@ export default function Add({
                     })}
                   />
                 </FormItem>
+                <FormField
+                  control={form.control}
+                  name="createdAt"
+                  render={({ field }) => <Calender onChange={field.onChange} />}
+                />
                 <FormField
                   control={form.control}
                   name="category"
@@ -188,18 +200,20 @@ export default function Add({
                   )}
                 />
 
-                <div className="flex items-center gap-2 w-full">
-                  <Button type="submit" className="grow">
-                    'Publish'
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant={'outline'}
-                    onClick={() => setDraft(true)}
-                  >
-                    'Save as draft'
-                  </Button>
-                </div>
+                <SheetClose>
+                  <div className="flex items-center gap-2 w-full">
+                    <Button type="submit" className="grow">
+                      Publish
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant={'outline'}
+                      onClick={() => setDraft(true)}
+                    >
+                      Save as draft
+                    </Button>
+                  </div>
+                </SheetClose>
               </form>
             </Form>
           </div>

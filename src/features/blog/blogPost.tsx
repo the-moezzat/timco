@@ -1,5 +1,5 @@
 import { Markdown } from '@/components/markdown';
-import { getPostById } from '@/services/blogApi';
+import { getPostByTitle } from '@/services/blogApi';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
@@ -9,7 +9,7 @@ function BlogPost() {
   const { blogId } = useParams();
 
   const { data, isLoading } = useQuery(['post', blogId], {
-    queryFn: () => getPostById(blogId as string),
+    queryFn: () => getPostByTitle(blogId?.replaceAll('_', ' ') as string),
     onSuccess: (data) => console.log(data),
     staleTime: Infinity,
   });

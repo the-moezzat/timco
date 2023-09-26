@@ -36,6 +36,7 @@ import styled from 'styled-components';
 import { Database } from '@/types/schema';
 import Sort from '../sort/sort';
 import Drag from '../drag/drag';
+import Calender from '@/components/date';
 interface EditBlogProps {
   defaultValues: Database['public']['Tables']['blog']['Row'];
   editFn: (newPost: {
@@ -73,6 +74,7 @@ const formSchema = z.object({
   }),
   oldAlbums: z.any(),
   newAlbums: z.any().optional(),
+  createdAt: z.string().optional(),
 });
 
 export default function Edit({
@@ -84,7 +86,10 @@ export default function Edit({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultValues as z.infer<typeof formSchema>,
+    defaultValues: {
+      ...(defaultValues as z.infer<typeof formSchema>),
+      createdAt: defaultValues.created_at,
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -100,8 +105,7 @@ export default function Edit({
       oldAlbumsOrder: values.oldAlbums as string[][],
       newAlbums: values.newAlbums as FileList[],
     };
-    console.log(values);
-    console.log(newPost);
+    
     editFn(newPost);
   }
 
@@ -159,6 +163,16 @@ export default function Edit({
                     />
                   </FormItem>
                 </div>
+                <FormField
+                  control={form.control}
+                  name="createdAt"
+                  render={({ field }) => (
+                    <Calender
+                      onChange={field.onChange}
+                      value={defaultValues.created_at}
+                    />
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="category"

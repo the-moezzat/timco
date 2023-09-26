@@ -28,21 +28,21 @@ export default function BlogItem({
   thumbnail,
   title,
   createdAt,
-  id,
   children,
   loading,
   content,
 }: BlogItemProps) {
+  const titleLink = title.replaceAll(' ', '_');
   return (
     <div className="grid grid-cols-[auto,1fr] gap-4 relative max-md:grid-cols-1 max-md:grid-rows-2">
       {loading && (
         <div className="absolute inset-0 w-full h-full bg-gray-200/50 z-10 animate-pulse"></div>
       )}
-      <Link to={`${id}`}>
+      <Link to={`${titleLink}`}>
         <Thumbnail $src={thumbnail} />
       </Link>
       <div className="flex flex-col">
-        <Link to={`${id}`}>
+        <Link to={`${titleLink}`}>
           <div>
             <p className="text-sm text-gray-500 mb-2">
               {new Date(createdAt as string).toLocaleDateString(undefined, {

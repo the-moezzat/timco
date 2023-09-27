@@ -246,6 +246,7 @@ export default function Edit({
                           onChange={(files) => {
                             field.onChange(files);
                           }}
+                          onUpload={(albums) => console.log(albums)}
                         />
                       </FormControl>
                     </FormItem>

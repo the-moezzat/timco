@@ -3,7 +3,7 @@
 // import Dnd from '../dnd';
 // import Calendar from './components/date';
 // import Drag from './features/drag/drag';
-// import Sort from './features/sort/sort';
+import Sort from './features/sort/sort';
 
 // import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
@@ -117,7 +117,7 @@ export default function Test() {
       </div> */}
       <div>
         {/* <Drag onChange={(files) => console.log(files)} /> */}
-        {/* <Sort
+        <Sort
           onChange={(files) => console.log(files)}
           albums={[
             [
@@ -137,7 +137,7 @@ export default function Test() {
               'https://wfhvwuxaecldkqrcrgvw.supabase.co/storage/v1/object/public/images/0.17792541437406562-frugal-flyer-NYpT6hsGQoc-unsplash.jpg',
             ],
           ]}
-        /> */}
+        />
 
         {/* <Calendar /> */}
 

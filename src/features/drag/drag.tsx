@@ -21,8 +21,10 @@ import { SortableItem } from './sortableItem';
 
 export default function Drag({
   onChange,
+  onUpload
 }: {
   onChange: (album: FileList[]) => void;
+  onUpload: (album: string[]) => void;
 }) {
   const [album, setAlbum] = useState<{ [key: string]: FileList | undefined }>(
     {}
@@ -47,8 +49,6 @@ export default function Drag({
   );
 
   function handleDelete(index: string) {
-    console.log('deleted');
-
     if (items.length < 2) {
       setAlbum({});
       setItems((state) => state.filter((item) => item !== index));
@@ -78,6 +78,7 @@ export default function Drag({
               index={index}
               onDelete={handleDelete}
               onAddition={setAlbum}
+              onUpload={onUpload}
             />
           ))}
         </div>

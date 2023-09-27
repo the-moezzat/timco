@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 
-async function uploadAlbums(albums: FileList[]) {
+export async function uploadAlbums(albums: FileList[]) {
   const albumsPath: string[][] = [];
 
   for (let i = 0; i < albums.length; i++) {
@@ -33,6 +33,7 @@ export async function AddPost({
   category,
   thumbnail,
   albums,
+  uploadedAlbums,
   createdAt,
 }: {
   title: string;
@@ -42,8 +43,9 @@ export async function AddPost({
   draft: boolean;
   albums: FileList[];
   createdAt: string;
+  uploadedAlbums?: string[][];
 }) {
-  console.log(thumbnail);
+  console.log(albums);
   const imageName = thumbnail.length
     ? `${Math.random()}-${thumbnail?.[0].name}`
         .replace(' ', '-')
@@ -52,11 +54,14 @@ export async function AddPost({
 
   const albumsPath: string[][] = await uploadAlbums(albums);
 
+  console.log(albumsPath);
   const { data: uploadData, error: uploadError } = thumbnail.length
     ? await supabase.storage.from('images').upload(imageName, thumbnail[0])
     : { data: null, error: null };
 
   if (uploadError) throw new Error(uploadError.message);
+
+  console.log([...(uploadedAlbums as string[][]), ...albumsPath]);
 
   const { data, error } = await supabase
     .from('blog')
@@ -71,7 +76,7 @@ export async function AddPost({
               import.meta.env.VITE_SUPABASE_URL
             }/storage/v1/object/public/images/${uploadData?.path}`
           : '',
-        albums: albumsPath,
+        albums: [...(uploadedAlbums as string[][]), ...albumsPath],
         created_at: createdAt,
       },
     ])

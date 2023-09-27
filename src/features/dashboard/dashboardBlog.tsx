@@ -1,14 +1,13 @@
 import { AddPost } from '@/services/blogApi';
-import toast, { useToasterStore } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import Blog from '../blog/blog';
-import Add from './add';
+import Add from '../blog/add';
 import DashboardTitle from './dashboardTitle';
 
 function DashboardBlog() {
   const queryClient = useQueryClient();
-  const toasting = useToasterStore();
-  console.log(toasting.toasts);
+  // const toasting = useToasterStore();
 
   let toastId: string;
 

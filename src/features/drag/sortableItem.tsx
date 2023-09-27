@@ -3,11 +3,16 @@ import { CSS } from '@dnd-kit/utilities';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DotsSixVertical, Trash } from '@phosphor-icons/react';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
+import { uploadAlbums } from '@/services/blogApi';
+import Loading from '@/components/Loading';
 
 export function SortableItem({
   id,
   onDelete,
   onAddition,
+  onUpload,
 }: {
   id: string;
   index: number;
@@ -17,7 +22,18 @@ export function SortableItem({
       [key: number]: FileList | undefined;
     }>
   >;
+  onUpload: (files: string[]) => void;
 }) {
+  const [album, setAlbum] = useState<FileList>();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: uploadAlbums,
+    onSuccess: (data) => {
+      onUpload(data[0]);
+      onDelete(id);
+    },
+  });
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
 
@@ -28,7 +44,7 @@ export function SortableItem({
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <div className=" cursor-grab active:first-line:cursor-grabbing">
           <DotsSixVertical size={32} />
         </div>{' '}
@@ -36,9 +52,10 @@ export function SortableItem({
           type="file"
           accept="image/*"
           multiple
-          // value={album[index] as FileList}
+          // value={album}
           className="text-base text-gray-8"
           onChange={(e) => {
+            setAlbum(e.target.files as FileList);
             onAddition((state) => ({
               ...state,
               [id]: e.target.files as FileList,
@@ -47,12 +64,20 @@ export function SortableItem({
         />
         <Button
           type="button"
+          variant={'default'}
+          onMouseDown={() => {
+            mutate([album] as FileList[]);
+          }}
+        >
+          {isLoading ? <Loading size="small" type="self" /> : 'Upload'}
+        </Button>
+        <Button
+          type="button"
           size={'icon'}
           variant={'destructive'}
-          className="text-xl"
+          className="text-xl flex-grow shrink-0"
           onMouseDown={() => {
             onDelete(id);
-            console.log('deleted');
           }}
         >
           <Trash />

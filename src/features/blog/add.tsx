@@ -31,10 +31,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-// import { useMutation, useQueryClient } from 'react-query';
-// import { AddPost } from '@/services/blogApi';
-// import Loading from '@/components/Loading';
-// import toast from 'react-hot-toast';
 import { useState } from 'react';
 import Drag from '../drag/drag';
 import Calender from '@/components/date';
@@ -51,7 +47,8 @@ const formSchema = z.object({
     required_error: 'Category is required',
   }),
   albums: z.any().optional(),
-  createdAt: z.string().optional(),
+  uploadedAlbums: z.array(z.array(z.string())).optional(),
+  createdAt: z.string(),
 });
 
 export default function Add({
@@ -65,35 +62,40 @@ export default function Add({
     category: string;
     albums?: any;
     createdAt?: string;
+    uploadedAlbums?: string[][];
   }) => void;
 }) {
-  // const queryClient = useQueryClient();
-  // const [albums, setAlbums] = useState<FileList[]>([]);
   const [draft, setDraft] = useState(false);
+  const [thumb, setThumb] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       createdAt: new Date().toISOString(),
+      uploadedAlbums: [],
     },
   });
 
-  // const { mutate, isLoading } = useMutation({
-  //   mutationFn: AddPost,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ['blog'] });
-  //     form.reset();
-  //     toast.success('Post added successfully');
-  //   },
-  //   onError: () => {
-  //     toast.error('Field to add post');
-  //   },
-  // });
+  // console.log(form.getValues());
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const thumbnail: FileList = values.thumbnail;
+    const thumbnail: FileList = thumb ? values.thumbnail : undefined;
     const albums: FileList[] = values.albums;
+    // setOpen(false);
+    // console.log({
+    //   ...values,
+    //   thumbnail,
+    //   draft,
+    //   albums,
+    // });
+
+    setThumb(false);
+
     addFn({ ...values, thumbnail, draft, albums });
-    form.reset();
+    form.resetField('title');
+    form.resetField('content');
+    form.resetField('uploadedAlbums');
+    form.resetField('category');
   }
 
   return (
@@ -125,17 +127,26 @@ export default function Add({
                     </FormItem>
                   )}
                 />
-                <FormItem>
-                  <FormLabel>Thumbnail</FormLabel>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    className="text-base text-gray-8"
-                    {...form.register('thumbnail', {
-                      required: 'This field is required',
-                    })}
-                  />
-                </FormItem>
+
+                <FormField
+                  control={form.control}
+                  name="thumbnail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Thumbnail</FormLabel>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        className="text-base text-gray-8"
+                        onChange={(e) => {
+                          setThumb(true);
+                          field.onChange(e.target.files);
+                        }}
+                      />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="createdAt"
@@ -190,11 +201,40 @@ export default function Add({
 
                 <FormField
                   control={form.control}
+                  name={'uploadedAlbums'}
+                  render={({ field }) => (
+                    <FormItem className="border p-2 rounded-md">
+                      <FormLabel>Uploaded albums</FormLabel>
+                      <FormControl>
+                        {/* <Sort
+                          albums={uploaded}
+                          onChange={(order) => field.onChange(order)}
+                          /> */}
+                        <ul className="flex flex-col gap-2 list-disc ml-4">
+                          {field.value?.map((album, index) => (
+                            <li key={index}>
+                              Album-{index + 1} ({album.length} photos)
+                            </li>
+                          ))}
+                        </ul>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="albums"
                   render={({ field }) => (
                     <Drag
                       onChange={(files) => {
                         field.onChange(files);
+                      }}
+                      onUpload={(albums) => {
+                        form.setValue('uploadedAlbums', [
+                          ...(form.getValues().uploadedAlbums as string[][]),
+                          albums,
+                        ]);
                       }}
                     />
                   )}

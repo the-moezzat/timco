@@ -127,7 +127,7 @@ export default function Edit({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="gap-3 grid grid-cols-2 w-full"
+                className="gap-3 grid grid-cols-2 w-full max-md:grid-cols-1"
               >
                 <div className="flex flex-col gap-2">
                   <FormField

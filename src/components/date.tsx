@@ -20,7 +20,7 @@ export default function Calender({
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DateCalendar', 'DateCalendar']}>
         <DateField
-          label="Controlled field"
+          label="Created at"
           value={date}
           onChange={(newValue) => {
             setValue(date);

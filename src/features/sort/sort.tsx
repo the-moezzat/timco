@@ -26,15 +26,44 @@ export default function Sort({
 }) {
   const alb = useMemo(() => albums, [albums]);
 
-  const [items, setItems] = useState(() =>
-    alb.map((album) => JSON.stringify(album))
+  // const fileArr = useMemo(
+  //   () =>
+  //     alb.map((album, index) => ({
+  //       id: index,
+  //       album,
+  //     })),
+  //   [alb]
+  // );
+
+  const [fileArr, setFileArr] = useState(() =>
+    alb.map((album, index) => ({
+      id: index,
+      album,
+    }))
   );
-  // console.log(items);
+  function getAlbum(id: number): string[] | undefined {
+    return fileArr.find((album) => album.id === id)?.album;
+  }
+
+  const [order, setOrder] = useState(() => fileArr.map((album) => album.id));
 
   useEffect(() => {
-    onChange(items.map((item) => JSON.parse(item)));
+    onChange(order.map((id) => getAlbum(id) as string[]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]);
+  }, [order, fileArr]);
+
+  function handleSortImage(id: number, newAlbum: string[]) {
+    setFileArr((prevFileArr) => {
+      const fileIndex = prevFileArr.findIndex((file) => file.id === id);
+      const updatedFile = {
+        ...prevFileArr[fileIndex],
+        album: newAlbum,
+      };
+      const updatedFileArr = [...prevFileArr];
+      updatedFileArr.splice(fileIndex, 1, updatedFile);
+      return updatedFileArr;
+    });
+  }
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -43,31 +72,23 @@ export default function Sort({
     })
   );
 
-  function handleDelete(index: string) {
-    console.log('deleted');
-
-    if (items.length < 2) {
-      setItems((state) => state.filter((item) => item !== index));
-      return;
-    }
-
-    setItems((state) => state.filter((item) => item !== index));
-  }
-
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        <div className=" space-y-2 mb-2">
-          {items.map((id, index) => (
+      <SortableContext items={order} strategy={verticalListSortingStrategy}>
+        <div className=" space-y-2">
+          {order.map((id, index) => (
             <SortableItem
               key={id}
               id={id}
               index={index}
-              onDelete={handleDelete}
+              album={getAlbum(id) as string[]}
+              onChange={(album) => {
+                handleSortImage(id, album);
+              }}
             />
           ))}
         </div>
@@ -79,11 +100,11 @@ export default function Sort({
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active?.id as string);
-        const newIndex = items.indexOf(over?.id as string);
+      setOrder((order) => {
+        const oldIndex = order.indexOf(active?.id as number);
+        const newIndex = order.indexOf(over?.id as number);
 
-        return arrayMove(items, oldIndex, newIndex);
+        return arrayMove(order, oldIndex, newIndex);
       });
     }
   }

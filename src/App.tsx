@@ -58,11 +58,11 @@ function App() {
                 <Route path="blog/:blogId" element={<BlogPost />} />
                 <Route path="gallery" element={<MainGallery />} />
                 <Route path="contact" element={<Contact />} />
+                <Route path="test" element={<Test />} />
               </Route>
               <Route path="login" element={<Login />} />
               <Route path="tim" element={<Dashboard />}>
                 <Route index element={<Navigate to="gallery" />} />
-                <Route path="test" element={<Test />} />
                 <Route path="current" element={<DashboardCurrent />} />
                 <Route path="gallery" element={<DashboardGallery />} />
                 <Route path="blog" element={<DashboardBlog />} />

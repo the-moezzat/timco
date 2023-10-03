@@ -1,15 +1,23 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DotsSixVertical } from '@phosphor-icons/react';
-// import { Button } from '@/components/ui/button';
-// import { Trash } from '@phosphor-icons/react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import SortImage from '../album-sort/drag';
 
 export function SortableItem({
   id,
+  album,
+  onChange,
 }: {
-  id: string;
+  id: number;
   index: number;
-  onDelete: (index: string) => void;
+  album: string[];
+  onChange: (album: string[]) => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
@@ -20,26 +28,32 @@ export function SortableItem({
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div ref={setNodeRef} style={style}>
       <div className="flex gap-2">
-        <div className=" cursor-grab active:first-line:cursor-grabbing">
+        <div
+          className=" cursor-grab active:first-line:cursor-grabbing"
+          {...listeners}
+          {...attributes}
+        >
           <DotsSixVertical size={32} />
         </div>
-        <div className="text-sm bg-white border p-2 rounded-md flex-1">
-          Item {JSON.parse(id).length}
-        </div>
-        {/* <Button
-          type="button"
-          size={'icon'}
-          variant={'destructive'}
-          className="text-xl"
-          onMouseDown={() => {
-            onDelete(id);
-            console.log('deleted');
-          }}
+        <Accordion
+          type="single"
+          collapsible
+          onValueChange={(value) => console.log(value)}
+          className="w-full"
         >
-          <Trash />
-        </Button> */}
+          <AccordionItem value={`item-1`}>
+            <AccordionTrigger>
+              <div className="text-sm text-start flex-1">
+                Album-{id + 1} ({album.length} photos)
+              </div>
+            </AccordionTrigger>
+            <AccordionContent asChild>
+              <SortImage album={album} onChange={onChange} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   );

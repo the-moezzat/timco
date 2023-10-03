@@ -161,6 +161,7 @@ export async function updatePost({
   thumbnail,
   oldAlbumsOrder,
   newAlbums,
+  createdAt,
 }: {
   id: string;
   draft: boolean;
@@ -170,6 +171,7 @@ export async function updatePost({
   thumbnail: FileList | string;
   oldAlbumsOrder: string[][];
   newAlbums: FileList[];
+  createdAt: string;
 }) {
   let thumbnailPath = thumbnail as string;
 
@@ -202,6 +204,7 @@ export async function updatePost({
       draft,
       category,
       albums,
+      created_at: createdAt,
     })
     .eq('id', id)
     .select();

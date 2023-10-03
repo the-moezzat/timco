@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { uploadAlbums } from '@/services/blogApi';
 import Loading from '@/components/Loading';
+import toast from 'react-hot-toast';
 
 export function SortableItem({
   id,
@@ -29,6 +30,7 @@ export function SortableItem({
   const { mutate, isLoading } = useMutation({
     mutationFn: uploadAlbums,
     onSuccess: (data) => {
+      toast.success('Album uploaded successfully');
       onUpload(data[0]);
       onDelete(id);
     },
@@ -47,7 +49,7 @@ export function SortableItem({
       <div className="flex gap-2 items-center">
         <div className=" cursor-grab active:first-line:cursor-grabbing">
           <DotsSixVertical size={32} />
-        </div>{' '}
+        </div>
         <Input
           type="file"
           accept="image/*"

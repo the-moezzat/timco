@@ -14,14 +14,13 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-
 import { Button } from '@/components/ui/button';
 
 import { SortableItem } from './sortableItem';
 
 export default function Drag({
   onChange,
-  onUpload
+  onUpload,
 }: {
   onChange: (album: FileList[]) => void;
   onUpload: (album: string[]) => void;

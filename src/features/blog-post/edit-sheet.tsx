@@ -46,9 +46,11 @@ export default function EditSheet({ defaultValues }: Props) {
       thumbnail: values.thumbnail,
       oldAlbumsOrder: values.oldAlbums as string[][],
       newAlbums: values.albums as FileList[],
-      uploadedAlbums: values.uploadedAlbums as string[][],
+      uploadedAlbums: values.uploadedAlbums ? values.uploadedAlbums : [],
       createdAt: values.createdAt || defaultValues.created_at,
     };
+
+    console.log(album);
 
     editPost(album);
 
@@ -60,7 +62,9 @@ export default function EditSheet({ defaultValues }: Props) {
   return (
     <Sheet open={open} onOpenChange={(open) => setOpen(open)}>
       <SheetTrigger>
-        <Button className="max-md:h-8 max-md:text-xs">Edit</Button>
+        <Button className="max-md:h-8 max-md:text-xs" size={'sm'}>
+          Edit
+        </Button>
       </SheetTrigger>
       <SheetContent side={'right'} className="">
         <SheetHeader>

@@ -66,7 +66,7 @@ export default function PostForm({ handleSubmit, defaultValues }: FormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues || {
-      createdAt: '2023-10-16T01:42:34.169+00:00',
+      createdAt: new Date().toISOString(),
       uploadedAlbums: [],
     },
   });
@@ -151,7 +151,12 @@ export default function PostForm({ handleSubmit, defaultValues }: FormProps) {
         <FormField
           control={form.control}
           name="createdAt"
-          render={({ field }) => <Calender onChange={field.onChange} />}
+          render={({ field }) => (
+            <Calender
+              onChange={field.onChange}
+              value={defaultValues?.createdAt}
+            />
+          )}
         />
 
         <FormField

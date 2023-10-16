@@ -38,15 +38,14 @@ export async function AddPost({
 }: {
   title: string;
   content: string;
-  thumbnail: FileList;
+  thumbnail?: FileList;
   category: string;
   draft: boolean;
   albums: FileList[];
   createdAt: string;
   uploadedAlbums?: string[][];
 }) {
-  console.log(albums);
-  const imageName = thumbnail.length
+  const imageName = thumbnail
     ? `${Math.random()}-${thumbnail?.[0].name}`
         .replace(' ', '-')
         .replace('/', '')
@@ -54,8 +53,7 @@ export async function AddPost({
 
   const albumsPath: string[][] = await uploadAlbums(albums);
 
-  console.log(albumsPath);
-  const { data: uploadData, error: uploadError } = thumbnail.length
+  const { data: uploadData, error: uploadError } = thumbnail
     ? await supabase.storage.from('images').upload(imageName, thumbnail[0])
     : { data: null, error: null };
 
@@ -71,7 +69,7 @@ export async function AddPost({
         content,
         category,
         draft,
-        thumbnail: thumbnail.length
+        thumbnail: thumbnail
           ? `${
               import.meta.env.VITE_SUPABASE_URL
             }/storage/v1/object/public/images/${uploadData?.path}`
@@ -178,6 +176,7 @@ export async function updatePost({
   createdAt: string;
 }) {
   let thumbnailPath = thumbnail as string;
+  console.log(1);
 
   if (typeof thumbnail === 'object') {
     const imageName = `${Math.random()}-${thumbnail[0].name}`
@@ -195,7 +194,11 @@ export async function updatePost({
     }/storage/v1/object/public/images/${uploadData.path}`;
   }
 
+  console.log(2);
+
   const albumsPath = await uploadAlbums(newAlbums);
+
+  console.log(3);
 
   const albums = [...oldAlbumsOrder, ...uploadedAlbums, ...albumsPath];
 

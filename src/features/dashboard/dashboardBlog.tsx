@@ -1,51 +1,14 @@
-import { AddPost } from '@/services/blogApi';
-import toast from 'react-hot-toast';
-import { useMutation, useQueryClient } from 'react-query';
 import Blog from '../blog/blog';
-import Add from '../blog/add';
 import DashboardTitle from './dashboardTitle';
+import AddSheet from '../blog-post/add-sheet';
 
 function DashboardBlog() {
-  const queryClient = useQueryClient();
-  // const toasting = useToasterStore();
-
-  let toastId: string;
-
-  const { mutate } = useMutation({
-    mutationFn: AddPost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blog'] });
-      toast.success('Post added successfully', {
-        id: toastId,
-      });
-    },
-    onError: () => {
-      toast.error('Field to add post', {
-        id: toastId,
-      });
-    },
-    onMutate() {
-      toastId = toast.loading('Adding post...');
-    },
-  });
-
   return (
     <div>
       <DashboardTitle title="Blog">
-        <Add
-          addFn={
-            mutate as (values: {
-              thumbnail?: FileList;
-              draft: boolean;
-              title: string;
-              content: string;
-              category: string;
-              createdAt?: string;
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              albums?: any;
-            }) => void
-          }
-        />
+        <div className="space-x-4">
+          <AddSheet />
+        </div>
       </DashboardTitle>
       <div className=" max-w-4xl mx-auto">
         <Blog type="admin" />

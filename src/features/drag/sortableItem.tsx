@@ -31,6 +31,8 @@ export function SortableItem({
     mutationFn: uploadAlbums,
     onSuccess: (data) => {
       toast.success('Album uploaded successfully');
+      console.log(data)
+      console.log(data[0])
       onUpload(data[0]);
       onDelete(id);
     },

@@ -113,11 +113,13 @@ export async function getAllPosts({
   title: string;
   category: string;
 }) {
+  // get latest posts first
   const { data, error } = await supabase
     .from('blog')
     .select('*')
     .ilike('title', `%${title}%`)
-    .ilike('category', `%${category}%`);
+    .ilike('category', `%${category}%`)
+    .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
 
@@ -160,6 +162,7 @@ export async function updatePost({
   category,
   thumbnail,
   oldAlbumsOrder,
+  uploadedAlbums,
   newAlbums,
   createdAt,
 }: {
@@ -171,6 +174,7 @@ export async function updatePost({
   thumbnail: FileList | string;
   oldAlbumsOrder: string[][];
   newAlbums: FileList[];
+  uploadedAlbums: string[][];
   createdAt: string;
 }) {
   let thumbnailPath = thumbnail as string;
@@ -193,7 +197,9 @@ export async function updatePost({
 
   const albumsPath = await uploadAlbums(newAlbums);
 
-  const albums = [...oldAlbumsOrder, ...albumsPath];
+  const albums = [...oldAlbumsOrder, ...uploadedAlbums, ...albumsPath];
+
+  console.log(albums);
 
   const { data, error } = await supabase
     .from('blog')

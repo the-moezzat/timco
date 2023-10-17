@@ -234,3 +234,20 @@ export async function draftPost({ id, draft }: { id: string; draft: boolean }) {
 
   return data;
 }
+
+// delete thumbnail from storage and database
+export async function deleteThumbnail(id: string) {
+  const { data, error } = await supabase
+    .from('blog')
+    .update({ thumbnail: '' })
+    .eq('id', id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  const { error: deleteError } = await supabase.storage
+    .from('images')
+    .remove([data[0].thumbnail?.split('/').at(-1) as string]);
+
+  if (deleteError) throw new Error(deleteError.message);
+}

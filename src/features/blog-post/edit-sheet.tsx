@@ -73,6 +73,7 @@ export default function EditSheet({ defaultValues }: Props) {
         <PostForm
           handleSubmit={handleSubmit}
           defaultValues={{
+            id: String(defaultValues.id),
             title: defaultValues.title,
             createdAt: defaultValues.created_at,
             category: defaultValues.category,

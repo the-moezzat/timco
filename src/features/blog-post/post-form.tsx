@@ -26,11 +26,13 @@ import Drag from '../drag/drag';
 import Calender from '@/components/date';
 import styled from 'styled-components';
 import Sort from '../sort/sort';
+import useDeleteThumbnail from './useDeleteThumbnail';
+import Loading from '@/components/Loading';
 
 type FormValues = z.infer<typeof formSchema>;
 
 interface FormProps {
-  defaultValues?: FormValues;
+  defaultValues?: FormValues & { id: string };
   handleSubmit: (values: { values: FormValues; draft: boolean }) => void;
 }
 
@@ -61,7 +63,7 @@ const formSchema = z.object({
 
 export default function PostForm({ handleSubmit, defaultValues }: FormProps) {
   const [draft, setDraft] = useState(false);
-  // const [thumb, setThumb] = useState(false);
+  const { deleteThumbnail, deletingThumbnail } = useDeleteThumbnail();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -110,12 +112,47 @@ export default function PostForm({ handleSubmit, defaultValues }: FormProps) {
             <>
               <FormItem className="flex gap-2 border p-2 rounded-lg items-center space-y-0">
                 {(selectedImage || defaultValues?.thumbnail) && (
-                  <Thumbnail
-                    $src={
-                      selectedImage ? selectedImage : defaultValues?.thumbnail
-                    }
-                    className={'rounded-md w-40 h-24 object-cover shrink-0'}
-                  />
+                  <div className={'relative group'}>
+                    {deletingThumbnail || (
+                      <div
+                        className={`absolute top-0 left-0 w-full hidden group-hover:flex h-full justify-center items-center gap-2 rounded-md z-50`}
+                      >
+                        <Button
+                          variant="destructive"
+                          onClick={() => {
+                            // setSelectedImage('');
+                            // field.onChange('');
+                            deleteThumbnail(defaultValues?.id as string, () => {
+                              setSelectedImage('');
+                              field.onChange('');
+                            });
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    )}
+
+                    {/* Show loading spinner  when deleting thumbnail*/}
+
+                    {deletingThumbnail && (
+                      <div
+                        className={`absolute top-0 left-0 w-full flex h-full justify-center items-center gap-2 rounded-md z-50 bg-gray-1 bg-gray-700/40`}
+                      >
+                        <Loading
+                          className="text-white"
+                          size="large"
+                          type="self"
+                        />
+                      </div>
+                    )}
+                    <Thumbnail
+                      $src={
+                        selectedImage ? selectedImage : defaultValues?.thumbnail
+                      }
+                      className={'rounded-md w-40 h-24 object-cover shrink-0'}
+                    />
+                  </div>
                 )}
                 {/* <FormLabel>Thumbnail</FormLabel> */}
                 <Input

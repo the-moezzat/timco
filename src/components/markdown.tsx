@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 
 export const Markdown = styled(ReactMarkdown)`
+  text-align: left;
   h1 {
     font-family: inherit;
     scrollbar-width: thin;

@@ -43,22 +43,34 @@ export default function BlogItem({ post }: BlogItemProps) {
       <div className="flex flex-col">
         <Link to={`${titleLink}`}>
           <div>
-            <p className="text-sm text-gray-500 mb-2">
-              {new Date(post.created_at as string).toLocaleDateString(
-                undefined,
-                {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                }
-              )}
-            </p>
+            <div className="flex gap-2">
+              <p className="text-sm text-gray-500 mb-2">
+                {new Date(post.created_at as string).toLocaleDateString(
+                  undefined,
+                  {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  }
+                )}
+              </p>
+              <p className="text-gray-500 text-sm">
+                #
+                {post.category.charAt(0).toUpperCase() +
+                  post.category.slice(1).toLowerCase()}
+              </p>
+            </div>
             <h2 className="text-3xl font-bold text-gray-700 max-md:text-2xl mb-2">
               {post.title}
             </h2>
             {post.content && (
               <p className="text-sm text-gray-700">
-                {post.content.split(' ').slice(0, 15).join(' ')}....
+                {post.content
+                  .split(' ')
+                  .slice(0, 15)
+                  .join(' ')
+                  .replaceAll('//=//=//=//', '')}
+                ....
               </p>
             )}
           </div>

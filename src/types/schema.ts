@@ -121,18 +121,21 @@ export interface Database {
           id: number;
           img: string | null;
           name: string | null;
+          order: number;
         };
         Insert: {
           created_at?: string;
           id?: number;
           img?: string | null;
           name?: string | null;
+          order?: number;
         };
         Update: {
           created_at?: string;
           id?: number;
           img?: string | null;
           name?: string | null;
+          order?: number;
         };
         Relationships: [];
       };

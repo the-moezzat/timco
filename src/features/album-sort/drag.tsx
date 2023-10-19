@@ -15,13 +15,15 @@ import {
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 
-import { SortableItem } from './sortableItem';
+import React from 'react';
 
 export default function SortImage({
   album,
   onChange,
+  render,
 }: {
   album: string[];
+  render: (items: string[]) => React.ReactNode;
   onChange: (album: string[]) => void;
 }) {
   const [items, setItems] = useState(album);
@@ -44,11 +46,15 @@ export default function SortImage({
       onDragEnd={handleDragEnd}
     >
       <SortableContext items={items} strategy={rectSortingStrategy}>
-        <div className="grid grid-cols-4 gap-2">
-          {items.map((id) => (
-            <SortableItem key={id} id={id} />
-          ))}
-        </div>
+        {/* <div className="grid grid-cols-4 gap-2"> */}
+        {render(items)}
+        {/* {items.map((id) => (
+            <React.Fragment key={id}>
+              {children}
+              <SortableItem key={id} id={id} />
+            </React.Fragment>
+          ))} */}
+        {/* </div> */}
       </SortableContext>
     </DndContext>
   );

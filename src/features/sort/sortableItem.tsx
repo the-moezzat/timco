@@ -8,6 +8,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import SortImage from '../album-sort/drag';
+import React from 'react';
+import { AlbumSortItem } from '../album-sort/album-sort-item';
 
 export function SortableItem({
   id,
@@ -50,7 +52,21 @@ export function SortableItem({
               </div>
             </AccordionTrigger>
             <AccordionContent asChild>
-              <SortImage album={album} onChange={onChange} />
+              <SortImage
+                album={album}
+                onChange={onChange}
+                render={(items) => {
+                  return (
+                    <div className="grid grid-cols-4 gap-2">
+                      {items.map((id) => (
+                        <React.Fragment key={id}>
+                          <AlbumSortItem key={id} id={id} />
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  );
+                }}
+              />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

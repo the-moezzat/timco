@@ -30,7 +30,10 @@ export async function uploadImage(file: File) {
 }
 
 export async function getImages() {
-  const { data, error } = await supabase.from('gallery').select();
+  const { data, error } = await supabase
+    .from('gallery')
+    .select()
+    .order('order', { ascending: true });
 
   if (error) throw new Error(error.message);
 
@@ -63,6 +66,19 @@ export async function downloadImage(imageName: string) {
   const { data, error } = await supabase.storage
     .from('images')
     .download(imageName);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function reorderGallery(
+  newOrder: { id: number; order: number }[]
+) {
+  const { data, error } = await supabase
+    .from('gallery')
+    .upsert(newOrder, { onConflict: 'id' })
+    .select();
 
   if (error) throw new Error(error.message);
 

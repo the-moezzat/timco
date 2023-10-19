@@ -53,7 +53,9 @@ function GalleryItem({
       onMouseLeave={toggleShow}
       className="relative"
     >
-      <img src={src} alt={alt} />
+      <img src={src} alt={alt} className="h-40 object-cover w-full" />
+      {/* <div className=" w-full h-24 bg-green-300 text-sm">{alt}</div> */}
+
       {isDeleting && (
         <div className="absolute inset-0 bg-slate-900/50 z-10">
           <Loading size="medium" type="full" />
@@ -66,7 +68,7 @@ function GalleryItem({
               size={'icon'}
               variant={'ghost'}
               className="text-white "
-              onClick={() => download(src.split('/').at(-1) as string)}
+              onMouseDown={() => download(src.split('/').at(-1) as string)}
             >
               {isDownloading ? (
                 <Loading size="small" type="self" />

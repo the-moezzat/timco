@@ -1,7 +1,13 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-export function SortableItem({ id }: { id: string }) {
+export function AlbumSortItem({
+  id,
+  children,
+}: {
+  id: string;
+  children?: React.ReactNode;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
 
@@ -13,7 +19,16 @@ export function SortableItem({ id }: { id: string }) {
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <div className=" cursor-move">
-        <img src={id} alt="" className="w-full h-24 object-cover rounded-md" />
+        {children ? (
+          children
+        ) : (
+          <img
+            src={id}
+            alt=""
+            className="w-full h-24 object-cover rounded-md"
+          />
+          // <div className=" w-full h-24 bg-green-300 text-sm">{id}</div>
+        )}
       </div>
     </div>
   );

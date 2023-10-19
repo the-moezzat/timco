@@ -9,43 +9,93 @@ import {
 } from '@/components/ui/dialog';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import { useMutation, useQueryClient } from 'react-query';
-import { uploadImage } from '@/services/galleryApi';
-import Gallery from '../gallery/gallery';
+// import { useMutation, useQueryClient } from 'react-query';
+// import { uploadImage } from '@/services/galleryApi';
+// import { toast } from 'react-hot-toast';
 import usePics from '@/hooks/usePics';
-import GalleryItem from './galleryItem';
-import { toast } from 'react-hot-toast';
+import GalleryItem from '../gallery/galleryItem';
 import DashboardTitle from './dashboardTitle';
+import SortImage from '../album-sort/drag';
+// import Gallery from '../gallery/gallery';
+// import { SortableItem } from '../gallery-reorder/sortableItem';
+import { AlbumSortItem } from '../album-sort/album-sort-item';
+import { Fragment, useState } from 'react';
+import { Database } from '@/types/schema';
+import { useAddImage } from '../gallery/useAddImg';
+import { DialogClose } from '@radix-ui/react-dialog';
+import { useReorderGallery } from '../gallery/useReorderGallery';
+// import SortImage from '../gallery-reorder/drag';
+
+type ImgGallery = Database['public']['Tables']['gallery']['Row'];
 
 function DashboardGallery() {
-  const queryClient = useQueryClient();
   const { data, isLoading: isDataLoading } = usePics();
   const { register, handleSubmit, reset } = useForm();
+  const [newOrder, setNewOrder] = useState<{ id: number; order: number }[]>([]);
+  const { addImage, loading: isLoading } = useAddImage();
+  const { reorderImages } = useReorderGallery();
 
-  const { mutate, isLoading } = useMutation(uploadImage, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['gallery'] });
-      toast.success('Image uploaded successfully');
-      reset();
-    },
-    onError() {
-      toast.error('Something went wrong');
-    },
-  });
+  // const { mutate, isLoading } = useMutation(uploadImage, {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['gallery'] });
+  //     toast.success('Image uploaded successfully');
+  //     reset();
+  //   },
+  //   onError() {
+  //     toast.error('Something went wrong');
+  //   },
+  // });
 
   function onSubmit(data: any) {
     const image: FileList =
       typeof data.image === 'string' ? data.image : data.image;
-    Array.from(image).map((file) => mutate(file));
+
+    Array.from(image).map((file) =>
+      addImage(file, () => {
+        reset();
+      })
+    );
   }
 
   function onError(errors: any) {
     console.log(errors);
   }
 
+  function handleReorderImage(newOrder: string[], gallery: ImgGallery[]) {
+    if (gallery.length === 0) return;
+
+    const newGallery = newOrder
+      .map((id, index) => {
+        const img = gallery.find((img) => img.id === +id);
+
+        if (img?.order === index) return;
+
+        return {
+          id: +id,
+          order: index,
+        };
+      })
+      .filter((img) => img !== undefined);
+
+    console.log(newGallery);
+
+    setNewOrder(newGallery as { id: number; order: number }[]);
+  }
+
   return (
     <div className=" space-y-8 max-md:space-y-2">
       <DashboardTitle title="Gallery">
+        {newOrder.length > 0 && (
+          <Button
+            className="max-md:h-8 max-md:text-xs"
+            onClick={() => {
+              reorderImages(newOrder);
+            }}
+          >
+            Save new order
+          </Button>
+        )}
+
         <Dialog>
           <DialogTrigger>
             <Button className="max-md:h-8 max-md:text-xs">
@@ -72,28 +122,55 @@ function DashboardGallery() {
                 disabled={isLoading}
               />
 
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Uploading...' : 'Upload'}
-              </Button>
+              <DialogClose>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? 'Uploading...' : 'Upload'}
+                </Button>
+              </DialogClose>
             </form>
           </DialogContent>
         </Dialog>
       </DashboardTitle>
+
       {isDataLoading ? (
         'loading'
       ) : (
-        <Gallery
-          render={() =>
-            data?.map((pic) => (
-              <GalleryItem
-                id={String(pic.id)}
-                src={pic.img as string}
-                alt={pic.name as string}
-                key={pic.id}
-              />
-            ))
-          }
+        <SortImage
+          album={data ? data.map((img) => String(img.id)) : []}
+          onChange={(items) => handleReorderImage(items, data ? data : [])}
+          render={(items) => {
+            return (
+              <div className="grid grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-2 gap-2">
+                {items.map((id) => (
+                  <Fragment key={id}>
+                    <AlbumSortItem key={id} id={id}>
+                      <GalleryItem
+                        id={String(id)}
+                        src={data?.find((img) => img.id === +id)?.img as string}
+                        alt={
+                          data?.find((img) => img.id === +id)?.name as string
+                        }
+                      />
+                    </AlbumSortItem>
+                  </Fragment>
+                ))}
+              </div>
+            );
+          }}
         />
+
+        // <Gallery
+        //   render={() =>
+        //     data?.map((pic) => (
+        //       <GalleryItem
+        //         id={String(pic.id)}
+        //         src={pic.img as string}
+        //         alt={pic.name as string}
+        //         key={pic.id}
+        //       />
+        //     ))
+        //   }
+        // />
       )}
     </div>
   );

@@ -51,10 +51,13 @@ export async function editSection({
 }
 
 export async function getItems(sectionId: number) {
+  // get all items for from section id from newest to latest
+
   const { data: current_sections, error } = await supabase
     .from('current_items')
     .select('*')
-    .eq('section_id', sectionId);
+    .eq('section_id', sectionId)
+    .order('id', { ascending: false });
 
   if (error) throw new Error(error.message);
 

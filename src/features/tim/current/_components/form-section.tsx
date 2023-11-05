@@ -7,8 +7,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
-import { editSection } from '@/services/currentApi';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,8 +18,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Database } from '@/types/schema';
-import toast from 'react-hot-toast';
+import { DialogClose } from '@radix-ui/react-dialog';
+
+interface Props {
+  defaultValues?: z.infer<typeof formSchema>;
+  onSubmit: (values: z.infer<typeof formSchema>) => void;
+}
 
 const formSchema = z.object({
   title: z.string({
@@ -29,36 +31,16 @@ const formSchema = z.object({
   }),
 });
 
-type Section = Database['public']['Tables']['current_sections']['Row'];
-
-export default function EditSection({ section }: { section: Section }) {
-  const queryClient = useQueryClient();
-
+export default function FormSection({ defaultValues, onSubmit }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: section.title as string,
-    },
+    defaultValues: defaultValues ? defaultValues : undefined,
   });
-
-  const { mutate, isLoading } = useMutation(editSection, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['sections']);
-      toast.success(`Title has changed successfully`);
-      form.reset({ title: data[0]?.title as string | undefined });
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate({ title: values.title, id: section.id });
-  }
 
   return (
     <Dialog>
       <DialogTrigger>
-        <Button size={'sm'} variant={'outline'}>
-          Edit
-        </Button>
+        <Button className="max-md:h-8 max-md:text-xs">Add section</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -80,16 +62,18 @@ export default function EditSection({ section }: { section: Section }) {
                     <Input
                       {...field}
                       className="text-base text-gray-8"
-                      disabled={isLoading}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Adding...' : 'Add'}
-            </Button>
+            <DialogClose className="self-end">
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? 'Adding...' : 'Add'}
+              </Button>
+            </DialogClose>
           </form>
         </Form>
       </DialogContent>

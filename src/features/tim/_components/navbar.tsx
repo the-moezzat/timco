@@ -18,7 +18,7 @@ const NavItem = styled(NavLink)`
   }
 `;
 
-export default function DashboardHeader() {
+export default function Navbar() {
   return (
     <header className="flex items-center justify-between bg-white p-1 rounded-md ">
       <ul className="flex items-center gap-1">

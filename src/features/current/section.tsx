@@ -1,4 +1,4 @@
-import { getItems } from '@/services/currentApi';
+import { getItems } from '@/features/tim/current/currentApi';
 import { useQuery } from 'react-query';
 import { Database } from '@/types/schema';
 import Item from './item';

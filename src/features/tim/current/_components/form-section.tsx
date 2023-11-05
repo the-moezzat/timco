@@ -19,10 +19,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { DialogClose } from '@radix-ui/react-dialog';
+import React from 'react';
 
 interface Props {
   defaultValues?: z.infer<typeof formSchema>;
   onSubmit: (values: z.infer<typeof formSchema>) => void;
+  children: React.ReactNode;
 }
 
 const formSchema = z.object({
@@ -31,7 +33,11 @@ const formSchema = z.object({
   }),
 });
 
-export default function FormSection({ defaultValues, onSubmit }: Props) {
+export default function FormSection({
+  defaultValues,
+  onSubmit,
+  children,
+}: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues ? defaultValues : undefined,
@@ -39,9 +45,7 @@ export default function FormSection({ defaultValues, onSubmit }: Props) {
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button className="max-md:h-8 max-md:text-xs">Add section</Button>
-      </DialogTrigger>
+      <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add new Section</DialogTitle>

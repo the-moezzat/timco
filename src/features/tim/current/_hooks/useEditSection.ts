@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 import { useQueryClient } from 'react-query';
-import { editSection } from '@/services/currentApi';
+import { editSection } from '@/features/tim/current/currentApi';
 
 export default function useEditSection() {
   const queryClient = useQueryClient();

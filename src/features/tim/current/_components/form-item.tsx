@@ -7,8 +7,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
-import { addItem } from '@/features/tim/current/currentApi';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,8 +18,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import toast from 'react-hot-toast';
-import { Database } from '@/types/schema';
+
+interface Props {
+  defaultValues?: z.infer<typeof formSchema>;
+  onSubmit: (values: z.infer<typeof formSchema>) => void;
+  children: React.ReactNode;
+}
 
 const formSchema = z.object({
   title: z.string({
@@ -31,35 +33,26 @@ const formSchema = z.object({
   link: z.string().optional(),
 });
 
-type Section = Database['public']['Tables']['current_sections']['Row'];
-
-export default function AddItem({ section }: { section: Section }) {
-  const queryClient = useQueryClient();
-
+export default function FormSectionItem({ defaultValues, onSubmit, children }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: defaultValues
+      ? {
+          title: defaultValues.title,
+          description: defaultValues.description || '',
+          link: defaultValues.link || '',
+        }
+      : undefined,
   });
-
-  const { mutate, isLoading } = useMutation(addItem, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['section', [section.id]]);
-      toast.success(`Section ${data[0].title} added successfully`);
-      form.reset({ title: '' });
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate({ ...values, section_id: section.id });
-  }
 
   return (
     <Dialog>
       <DialogTrigger>
-        <Button size={'sm'}>Add Item</Button>
+        {children}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add new item to {section.title}</DialogTitle>
+          <DialogTitle>Add new item</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -77,7 +70,7 @@ export default function AddItem({ section }: { section: Section }) {
                     <Input
                       {...field}
                       className="text-base text-gray-8"
-                      disabled={isLoading}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -94,7 +87,7 @@ export default function AddItem({ section }: { section: Section }) {
                     <Input
                       {...field}
                       className="text-base text-gray-8"
-                      disabled={isLoading}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -111,7 +104,7 @@ export default function AddItem({ section }: { section: Section }) {
                     <Input
                       {...field}
                       className="text-base text-gray-8"
-                      disabled={isLoading}
+                      disabled={form.formState.isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -119,8 +112,8 @@ export default function AddItem({ section }: { section: Section }) {
               )}
             />
 
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Adding...' : 'Add'}
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? 'Adding...' : 'Add'}
             </Button>
           </form>
         </Form>

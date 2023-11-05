@@ -1,4 +1,4 @@
-import { getSections } from '@/services/currentApi';
+import { getSections } from '@/features/tim/current/currentApi';
 import { useQuery } from 'react-query';
 import Loading from '@/components/Loading';
 import Section from './section';

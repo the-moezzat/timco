@@ -12,21 +12,21 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { deleteSection, getItems } from '@/services/currentApi';
-import { Trash } from '@phosphor-icons/react';
+import { deleteSection, getItems } from '@/features/tim/current/currentApi';
+import { Pencil, Trash } from '@phosphor-icons/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import AddItem from './addItem';
-import CurrentItem from './dashboardItem';
-import { Database } from '@/types/schema';
 import FormSection from './form-section';
 import useEditSection from '../_hooks/useEditSection';
+import FormSectionItem from './form-item';
+import Item from './item';
+import useAddItem from '../_hooks/useAddItem';
+import { Section as SectionType } from '../_types/types';
 
-type Section = Database['public']['Tables']['current_sections']['Row'];
-
-export default function Section({ section }: { section: Section }) {
+export default function Section({ section }: { section: SectionType }) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { changeSectionTitle } = useEditSection();
+  const { createItem } = useAddItem(section);
 
   const { data, isLoading } = useQuery(['section', [section.id]], {
     queryFn: () => getItems(section.id),
@@ -48,14 +48,26 @@ export default function Section({ section }: { section: Section }) {
           {section.title}
         </h2>
         <div className="flex gap-2">
-          <AddItem section={section} />
+          <FormSectionItem onSubmit={(values) => createItem(values)}>
+            <Button size={'sm'}>Add Item</Button>
+          </FormSectionItem>
+
+          {/* <AddItem section={section} /> */}
 
           <FormSection
             onSubmit={(values) => changeSectionTitle(values.title, section.id)}
             defaultValues={{
               title: section.title!,
             }}
-          />
+          >
+            <Button
+              size={'icon'}
+              className="text-lg transition-all h-8 w-8 "
+              variant={'outline'}
+            >
+              <Pencil weight="bold" />
+            </Button>
+          </FormSection>
 
           <AlertDialog>
             <AlertDialogTrigger>
@@ -93,7 +105,7 @@ export default function Section({ section }: { section: Section }) {
       <div className=" space-y-2">
         <ul className="grid grid-cols-1 gap-2 items-start">
           {data?.map((item) => (
-            <CurrentItem key={item.id} item={item} />
+            <Item key={item.id} item={item} />
           ))}
         </ul>
       </div>

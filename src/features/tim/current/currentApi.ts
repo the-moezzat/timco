@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from '@/services/supabase';
 
 export async function getSections() {
   const { data: current_sections, error } = await supabase

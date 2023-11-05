@@ -11,7 +11,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { deleteItem } from '@/services/currentApi';
+import { deleteItem } from '@/features/tim/current/currentApi';
 import { Database } from '@/types/schema';
 import { Trash } from '@phosphor-icons/react';
 import { toast } from 'react-hot-toast';

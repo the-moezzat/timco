@@ -1,6 +1,6 @@
 import BlogItem from './blogItem';
 import Loading from '@/components/Loading';
-import Search from './search';
+import Search from '../tim/blog/_components/search';
 import usePosts from './usePosts';
 
 function Blog({ type }: { type: 'admin' | 'user' }) {

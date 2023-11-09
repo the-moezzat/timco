@@ -4,7 +4,7 @@ import { lazy } from 'react';
 import Tim from '.';
 
 const Current = lazy(() => import('./current'));
-const DashboardBlog = lazy(() => import('../dashboard/dashboardBlog'));
+const Blog = lazy(() => import('./blog'));
 const DashboardGallery = lazy(() => import('../dashboard/dashboardGallery'));
 
 function TimRoutes() {
@@ -14,7 +14,7 @@ function TimRoutes() {
         <Route index element={<Navigate to="current" />} />
         <Route path="current" element={<Current />} />
         <Route path="gallery" element={<DashboardGallery />} />
-        <Route path="blog" element={<DashboardBlog />} />
+        <Route path="blog" element={<Blog />} />
         <Route path="blog/:blogId" element={<BlogPost />} />
       </Route>
     </Routes>

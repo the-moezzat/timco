@@ -3,9 +3,9 @@ import { styled } from 'styled-components';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Database } from '@/types/schema';
-import useDeletePost from '../blog-post/useDeletePost';
+import useDeletePost from '../tim/blog/_hooks/useDeletePost';
 import Loading from '@/components/Loading';
-import EditSheet from '../blog-post/edit-sheet';
+import EditSheet from '../tim/blog/_components/edit-post';
 
 interface BlogItemProps {
   post: Database['public']['Tables']['blog']['Row'];
@@ -27,8 +27,6 @@ export default function BlogItem({ post }: BlogItemProps) {
   const location = useLocation().pathname.split('/')[1];
 
   const { deletePost, deleting } = useDeletePost();
-
-  console.log(post);
 
   const titleLink = post.title.replaceAll(' ', '_');
 
@@ -75,6 +73,7 @@ export default function BlogItem({ post }: BlogItemProps) {
             )}
           </div>
         </Link>
+
         {location === 'tim' && (
           <div className="mt-auto space-y-2">
             <Separator />

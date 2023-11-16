@@ -7,8 +7,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import SortImage from '../../../../album-sort/drag';
-import { AlbumSortItem } from '../../../../album-sort/album-sort-item';
+import SortImage from '../../../../../components/album-sort/drag';
+import { AlbumSortItem } from '../../../../../components/album-sort/album-sort-item';
 import { Button } from '@/components/ui/button';
 
 export function SortableItem({

@@ -5,7 +5,7 @@ import Tim from '.';
 
 const Current = lazy(() => import('./current'));
 const Blog = lazy(() => import('./blog'));
-const DashboardGallery = lazy(() => import('../dashboard/dashboardGallery'));
+const Gallery = lazy(() => import('./gallery'));
 
 function TimRoutes() {
   return (
@@ -13,7 +13,7 @@ function TimRoutes() {
       <Route path="tim" element={<Tim />}>
         <Route index element={<Navigate to="current" />} />
         <Route path="current" element={<Current />} />
-        <Route path="gallery" element={<DashboardGallery />} />
+        <Route path="gallery" element={<Gallery />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:blogId" element={<BlogPost />} />
       </Route>

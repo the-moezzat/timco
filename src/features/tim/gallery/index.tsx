@@ -9,22 +9,16 @@ import {
 } from '@/components/ui/dialog';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-// import { useMutation, useQueryClient } from 'react-query';
-// import { uploadImage } from '@/services/galleryApi';
-// import { toast } from 'react-hot-toast';
 import usePics from '@/hooks/usePics';
-import GalleryItem from '../gallery/galleryItem';
-import DashboardTitle from './dashboardTitle';
-import SortImage from '../album-sort/drag';
-// import Gallery from '../gallery/gallery';
-// import { SortableItem } from '../gallery-reorder/sortableItem';
-import { AlbumSortItem } from '../album-sort/album-sort-item';
+import GalleryItem from './_components/galleryItem';
+import Header from '../_components/header';
+import SortImage from '@/components/album-sort/drag';
+import { AlbumSortItem } from '@/components/album-sort/album-sort-item';
 import { Fragment, useState } from 'react';
 import { Database } from '@/types/schema';
-import { useAddImage } from '../gallery/useAddImg';
+import { useAddImage } from './_hooks/useAddImg';
 import { DialogClose } from '@radix-ui/react-dialog';
-import { useReorderGallery } from '../gallery/useReorderGallery';
-// import SortImage from '../gallery-reorder/drag';
+import { useReorderGallery } from './_hooks/useReorderGallery';
 
 type ImgGallery = Database['public']['Tables']['gallery']['Row'];
 
@@ -84,7 +78,7 @@ function Gallery() {
 
   return (
     <div className=" space-y-8 max-md:space-y-2">
-      <DashboardTitle title="Gallery">
+      <Header title="Gallery">
         {newOrder.length > 0 && (
           <Button
             className="max-md:h-8 max-md:text-xs"
@@ -130,7 +124,7 @@ function Gallery() {
             </form>
           </DialogContent>
         </Dialog>
-      </DashboardTitle>
+      </Header>
 
       {isDataLoading ? (
         'loading'
@@ -158,22 +152,9 @@ function Gallery() {
             );
           }}
         />
-
-        // <Gallery
-        //   render={() =>
-        //     data?.map((pic) => (
-        //       <GalleryItem
-        //         id={String(pic.id)}
-        //         src={pic.img as string}
-        //         alt={pic.name as string}
-        //         key={pic.id}
-        //       />
-        //     ))
-        //   }
-        // />
       )}
     </div>
   );
 }
 
-export default DashboardGallery;
+export default Gallery;

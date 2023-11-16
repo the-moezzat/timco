@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import BlogPost from '../blog/blogPost';
+import BlogPost from '../../components/blog/blogPost';
 import { lazy } from 'react';
 import Tim from '.';
 

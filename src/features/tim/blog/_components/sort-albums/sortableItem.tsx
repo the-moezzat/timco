@@ -7,9 +7,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import SortImage from '../album-sort/drag';
-import React from 'react';
-import { AlbumSortItem } from '../album-sort/album-sort-item';
+import SortImage from '../../../../album-sort/drag';
+import { AlbumSortItem } from '../../../../album-sort/album-sort-item';
+import { Button } from '@/components/ui/button';
 
 export function SortableItem({
   id,
@@ -28,6 +28,8 @@ export function SortableItem({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  // function handleDelete(id: string) {}
 
   return (
     <div ref={setNodeRef} style={style}>
@@ -59,9 +61,17 @@ export function SortableItem({
                   return (
                     <div className="grid grid-cols-4 gap-2">
                       {items.map((id) => (
-                        <React.Fragment key={id}>
+                        <div key={id} className="relative group">
+                          <Button
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:block hidden"
+                            variant={'destructive'}
+                            size={'sm'}
+                            type="button"
+                          >
+                            Delete
+                          </Button>
                           <AlbumSortItem key={id} id={id} />
-                        </React.Fragment>
+                        </div>
                       ))}
                     </div>
                   );

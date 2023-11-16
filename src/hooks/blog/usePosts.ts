@@ -7,7 +7,6 @@ import { useCallback } from 'react';
 export default function usePosts() {
   const [searchParams] = useSearchParams();
   const [filteredPosts, setFilteredPosts] = useState<typeof data>([]);
-  // const queryClient = useQueryClient();
 
   const { isLoading, data, isError } = useQuery(['blog'], {
     queryFn: () =>
@@ -39,30 +38,6 @@ export default function usePosts() {
   useEffect(() => {
     filterPosts();
   }, [filterPosts, searchParams]);
-
-  // const { mutate } = useMutation({
-  //   mutationFn: getAllPosts,
-  //   onSuccess: (data) => queryClient.setQueryData(['blog'], data),
-  // });
-
-  // useEffect(
-  //   function () {
-  //     mutate({
-  //       title: searchParams.get('search') ?? '',
-  //       category: (searchParams.get('filter') as string) ?? '',
-  //     });
-  //   },
-  //   [mutate, searchParams]
-  // );
-
-  // useEffect(
-  //   function () {
-  //     refetch({
-  //       queryKey: ['blog'],
-  //     });
-  //   },
-  //   [searchParams, refetch]
-  // );
 
   return { data: filteredPosts, isLoading, isError };
 }

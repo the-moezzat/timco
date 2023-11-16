@@ -22,10 +22,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useState } from 'react';
-import Drag from '../../../drag/drag';
+import Drag from './drag-albums/drag';
 import Calender from '@/components/date';
 import styled from 'styled-components';
-import Sort from '../../../sort/sort';
+import Sort from './sort-albums/sort';
 import Loading from '@/components/Loading';
 import useDeleteThumbnail from '../_hooks/useDeleteThumbnail';
 

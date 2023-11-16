@@ -1,11 +1,6 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
 import { Database } from '@/types/schema';
-import useDeletePost from '../tim/blog/_hooks/useDeletePost';
-import Loading from '@/components/Loading';
-import EditSheet from '../tim/blog/_components/edit-post';
 
 interface BlogItemProps {
   post: Database['public']['Tables']['blog']['Row'];
@@ -24,10 +19,6 @@ const Thumbnail = styled.div<{ $src: string }>`
 `;
 
 export default function BlogItem({ post }: BlogItemProps) {
-  const location = useLocation().pathname.split('/')[1];
-
-  const { deletePost, deleting } = useDeletePost();
-
   const titleLink = post.title.replaceAll(' ', '_');
 
   return (
@@ -73,26 +64,6 @@ export default function BlogItem({ post }: BlogItemProps) {
             )}
           </div>
         </Link>
-
-        {location === 'tim' && (
-          <div className="mt-auto space-y-2">
-            <Separator />
-
-            <div className="flex gap-2 justify-end">
-              <EditSheet defaultValues={post} />
-              <Button
-                variant={'destructive'}
-                onClick={() => {
-                  deletePost(String(post.id));
-                }}
-                size={'sm'}
-                disabled={deleting}
-              >
-                {deleting ? <Loading size="small" type="self" /> : 'Delete'}
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

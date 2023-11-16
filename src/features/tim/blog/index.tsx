@@ -1,8 +1,8 @@
 import Loading from '@/components/Loading';
 import Header from '../_components/header';
 import AddPost from './_components/add-post';
-import Search from './_components/search';
-import usePosts from './_hooks/usePosts';
+import Search from '@/components/blog/search';
+import usePosts from '@/hooks/blog/usePosts';
 import Post from './_components/post';
 
 function Blog() {

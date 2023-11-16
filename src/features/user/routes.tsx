@@ -6,8 +6,8 @@ import MainCurrent from './current';
 import UserSide from '.';
 
 const MainGallery = lazy(() => import('../gallery/mainGallery'));
-const BlogPost = lazy(() => import('../blog/blogPost'));
-const Blog = lazy(() => import('../blog/blog'));
+const BlogPost = lazy(() => import('@/components/blog/blogPost'));
+const Blog = lazy(() => import('./blog'));
 const Contact = lazy(() => import('./contact'));
 
 const imageDetails = {

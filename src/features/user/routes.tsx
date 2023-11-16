@@ -5,7 +5,7 @@ import { lazy } from 'react';
 import MainCurrent from './current';
 import UserSide from '.';
 
-const MainGallery = lazy(() => import('../gallery/mainGallery'));
+const Gallery = lazy(() => import('./gallery'));
 const BlogPost = lazy(() => import('@/components/blog/blogPost'));
 const Blog = lazy(() => import('./blog'));
 const Contact = lazy(() => import('./contact'));
@@ -32,7 +32,7 @@ export default function UserRoutes() {
           }
         />
         <Route path="blog/:blogId" element={<BlogPost />} />
-        <Route path="gallery" element={<MainGallery />} />
+        <Route path="gallery" element={<Gallery />} />
         <Route path="contact" element={<Contact />} />
         <Route path="test" element={<Test />} />
       </Route>

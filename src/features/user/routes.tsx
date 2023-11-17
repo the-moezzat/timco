@@ -1,4 +1,4 @@
-import Model from '@/pages/model';
+import Model from './home';
 import Test from '@/test';
 import { Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';

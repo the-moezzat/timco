@@ -146,7 +146,7 @@ main {
   .container {
     position: relative;
     .row {
-      height: 100vh;
+      height: 100%;
       align-items: center;
       .image-container {
         position: relative;
@@ -223,7 +223,7 @@ main {
       }
     }
     .bottom-row {
-      height: 90vh;
+      height: 150vh;
       position: relative;
       .bottom {
         height: 100%;

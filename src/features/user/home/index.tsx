@@ -104,7 +104,7 @@ const Model = ({ imageDetails }: ModelProps) => {
                     y: 0,
                     width: '100%',
                     radius: '',
-                    height: window.innerWidth > 1440 ? 800 : 500,
+                    height: '100%',
                     transition: { delay: 0.2, ...transition },
                   }}
                   className="thumbnail-single"
@@ -126,7 +126,7 @@ const Model = ({ imageDetails }: ModelProps) => {
                         transition: { delay: 0.2, ...transition },
                         // y: window.innerWidth > 1440 ? -1200 : -500,
                       }}
-                      className="max-md:h-[500px] h-[1000px] w-auto object-cover object-bottom max-lg:object-center max-md:object-center"
+                      className="object-cover object-bottom max-lg:object-center max-md:object-center"
                     />
                   </motion.div>
                 </motion.div>

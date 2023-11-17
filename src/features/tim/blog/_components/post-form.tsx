@@ -290,6 +290,7 @@ export default function PostForm({ handleSubmit, defaultValues }: FormProps) {
                 <FormControl>
                   <Sort
                     albums={defaultValues?.oldAlbums as string[][]}
+                    postTitle={defaultValues?.title as string}
                     onChange={(order) => field.onChange(order)}
                   />
                 </FormControl>

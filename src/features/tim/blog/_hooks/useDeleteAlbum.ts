@@ -1,15 +1,21 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useQueryClient } from 'react-query';
+import { removeAlbum } from '../_utils/removeAlbum';
 
-export default function useDeleteAlbum(album: string[]) {
-  const [loading, setLoading] = useState(false);
+export default function useDeleteAlbum(
+  originalAlbum: string[][],
+  postTitle: string
+) {
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
 
-  function deleteAlbum(id: string) {
+  function deleteAlbum(album: string[]) {
     setLoading(true);
 
-    toast.promise(removePost(id), {
+    // removeAlbum(album, originalAlbum);
+
+    toast.promise(removeAlbum(postTitle, album, originalAlbum), {
       loading: 'Deleting post...',
       success() {
         setLoading(false);

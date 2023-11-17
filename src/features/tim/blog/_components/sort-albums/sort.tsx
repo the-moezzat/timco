@@ -16,15 +16,20 @@ import {
 } from '@dnd-kit/sortable';
 
 import { SortableItem } from './sortableItem';
+import useDeleteAlbum from '../../_hooks/useDeleteAlbum';
 
 export default function Sort({
   onChange,
   albums,
+  postTitle,
 }: {
   onChange: (album: string[][]) => void;
+  postTitle: string;
   albums: string[][];
 }) {
   const alb = useMemo(() => albums, [albums]);
+
+  const { deleteAlbum } = useDeleteAlbum(albums, postTitle);
 
   // const fileArr = useMemo(
   //   () =>
@@ -65,6 +70,11 @@ export default function Sort({
     });
   }
 
+  function handleDeleteAlbum(id: number, album: string[]) {
+    deleteAlbum(album);
+    setOrder((order) => order.filter((albumId) => albumId !== id));
+  }
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -88,6 +98,9 @@ export default function Sort({
               album={getAlbum(id) as string[]}
               onChange={(album) => {
                 handleSortImage(id, album);
+              }}
+              onDelete={(id: number, album: string[]) => {
+                handleDeleteAlbum(id, album);
               }}
             />
           ))}

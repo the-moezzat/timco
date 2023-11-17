@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { DotsSixVertical } from '@phosphor-icons/react';
+import { DotsSixVertical, Trash } from '@phosphor-icons/react';
 import {
   Accordion,
   AccordionContent,
@@ -15,11 +15,13 @@ export function SortableItem({
   id,
   album,
   onChange,
+  onDelete,
 }: {
   id: number;
   index: number;
   album: string[];
   onChange: (album: string[]) => void;
+  onDelete: (id: number, album: string[]) => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
@@ -49,8 +51,19 @@ export function SortableItem({
         >
           <AccordionItem value={`item-1`}>
             <AccordionTrigger>
-              <div className="text-sm text-start flex-1">
-                Album-{id + 1} ({album.length} photos)
+              <div className="text-sm text-start flex-1 flex gap-4 items-center">
+                <Button
+                  size={'icon'}
+                  variant={'destructive'}
+                  onClick={() => onDelete(id, album)}
+                  className={'h-7 w-7'}
+                  type="button"
+                >
+                  <Trash className="text-lg" />
+                </Button>
+                <span>
+                  Album-{id + 1} ({album.length} photos)
+                </span>
               </div>
             </AccordionTrigger>
             <AccordionContent asChild>

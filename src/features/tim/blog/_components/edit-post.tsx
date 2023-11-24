@@ -10,6 +10,7 @@ import PostForm from './post-form';
 import { useState } from 'react';
 import useEditPost from '../_hooks/useEditPost';
 import { PostType } from '../_types/types';
+import { Pencil } from '@phosphor-icons/react';
 
 interface Props {
   defaultValues: PostType;
@@ -58,9 +59,9 @@ export default function EditPost({ defaultValues }: Props) {
 
   return (
     <Sheet open={open} onOpenChange={(open) => setOpen(open)}>
-      <SheetTrigger className="w-full text-left py-1.5 px-2 text-sm hover:bg-slate-100 rounded-md">
+      <SheetTrigger className="w-full text-left py-1.5 px-1.5 text-lg hover:bg-slate-100 rounded-md border ">
         {/* <Button className="max-md:h-8 max-md:text-xs w-full" size={'sm'}> */}
-        Edit
+        <Pencil />
         {/* </Button> */}
       </SheetTrigger>
       <SheetContent side={'right'} className="">

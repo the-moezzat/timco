@@ -7,7 +7,7 @@ export default function useDeletePost() {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  function deletePost(id: string) {
+  function deletePost(id: number) {
     setLoading(true);
 
     toast.promise(removePost(id), {

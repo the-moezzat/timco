@@ -124,7 +124,7 @@ export async function getAllPosts({
   return data;
 }
 
-export async function deletePost(id: string) {
+export async function deletePost(id: number) {
   const { error, data } = await supabase
     .from('blog')
     .delete()

@@ -1,23 +1,14 @@
-import { ArrowLineUpRight, DotsThree } from '@phosphor-icons/react';
+import { ArrowLineUpRight } from '@phosphor-icons/react';
 import { PostType } from '../_types/types';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import EditPost from './edit-post';
-import useDeletePost from '../_hooks/useDeletePost';
+import DeletePost from './delete-post';
 
 interface Props {
   post: PostType;
 }
 export default function Post({ post }: Props) {
   const titleLink = post.title.replaceAll(' ', '_');
-
-  const { deletePost } = useDeletePost();
-
   return (
     <div className="border rounded-sm p-2 flex gap-4">
       {post.thumbnail && (
@@ -57,7 +48,17 @@ export default function Post({ post }: Props) {
       </div>
 
       <div className="ml-auto flex gap-2 items-center self-start">
-        <DropdownMenu>
+        <EditPost defaultValues={post} />
+        <DeletePost postId={post.id} />
+        {/* <Button
+          // asChild
+          className="bg-red-50 focus:bg-red-100"
+          onClick={() => deletePost(String(post.id))}
+        >
+          Delete
+        </Button> */}
+
+        {/* <DropdownMenu>
           <DropdownMenuTrigger>
             <DotsThree className="text-3xl" />
           </DropdownMenuTrigger>
@@ -73,7 +74,7 @@ export default function Post({ post }: Props) {
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
     </div>
   );

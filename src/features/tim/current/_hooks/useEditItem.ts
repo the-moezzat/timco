@@ -25,7 +25,7 @@ export default function useEditItem(item: Item) {
       {
         loading: `Editing ${item.title}...`,
         success: (data) => {
-          queryClient.invalidateQueries(['section', [item.section_id]]);
+          queryClient.invalidateQueries(['section', item.section_id]);
           return `${data[0].title} updated successfully`;
         },
         error: (error) => `Could not update ${item.title} (${error})`,

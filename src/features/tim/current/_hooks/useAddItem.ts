@@ -25,7 +25,7 @@ export default function useAddItem(section: Section) {
       {
         loading: 'Adding Item...',
         success: (data) => {
-          queryClient.invalidateQueries(['section', [section.id]]);
+          queryClient.invalidateQueries(['section', section.id]);
           return `Section ${data[0].title} added successfully`;
         },
         error: (error) => `Could not add section (${error})`,

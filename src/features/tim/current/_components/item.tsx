@@ -33,8 +33,8 @@ export default function Item({ item }: { item: ItemType }) {
   const { updateItem } = useEditItem(item);
 
   return (
-    <li className="bg-white border border-gray-300 rounded-md p-2 flex gap-2 justify-between items-start">
-      {item.link ? (
+    <li className="bg-white border border-gray-300 rounded-md p-2 w-full flex gap-2 justify-between items-start">
+      {item?.link ? (
         item.description ? (
           <p className="flex flex-col">
             <a href={item.link} className="underline" target="_blank">

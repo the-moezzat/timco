@@ -18,9 +18,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import FormSection from './form-section';
 import useEditSection from '../_hooks/useEditSection';
 import FormSectionItem from './form-item';
-import Item from './item';
 import useAddItem from '../_hooks/useAddItem';
 import { Section as SectionType } from '../_types/types';
+import Sorty from './sort-items/sorty';
+import useReorderItems from '../_hooks/useReorderItems';
 
 export default function Section({ section }: { section: SectionType }) {
   const queryClient = useQueryClient();
@@ -28,7 +29,11 @@ export default function Section({ section }: { section: SectionType }) {
   const { changeSectionTitle } = useEditSection();
   const { createItem } = useAddItem(section);
 
-  const { data, isLoading } = useQuery(['section', [section.id]], {
+  const { changeItemsOrder, handleReorderItems, newOrder } = useReorderItems({
+    sectionId: section.id,
+  });
+
+  const { data, isLoading } = useQuery(['section', section.id], {
     queryFn: () => getItems(section.id),
   });
 
@@ -47,13 +52,16 @@ export default function Section({ section }: { section: SectionType }) {
         <h2 className="text-xl font-semibold text-neutral-800">
           {section.title}
         </h2>
+
+        {newOrder.length > 0 && (
+          <Button onClick={() => changeItemsOrder()}>Save New Order</Button>
+        )}
+
         <div className="flex gap-2">
           <FormSectionItem onSubmit={(values) => createItem(values)}>
             <Button size={'sm'}>Add Item</Button>
           </FormSectionItem>
-
           {/* <AddItem section={section} /> */}
-
           <FormSection
             onSubmit={(values) => changeSectionTitle(values.title, section.id)}
             defaultValues={{
@@ -68,7 +76,6 @@ export default function Section({ section }: { section: SectionType }) {
               <Pencil weight="bold" />
             </Button>
           </FormSection>
-
           <AlertDialog>
             <AlertDialogTrigger>
               <Button
@@ -104,9 +111,7 @@ export default function Section({ section }: { section: SectionType }) {
       {isLoading && 'Loading...'}
       <div className=" space-y-2">
         <ul className="grid grid-cols-1 gap-2 items-start">
-          {data?.map((item) => (
-            <Item key={item.id} item={item} />
-          ))}
+          {data && <Sorty items={data} onOrderChange={handleReorderItems} />}
         </ul>
       </div>
     </div>

@@ -57,7 +57,7 @@ export async function getItems(sectionId: number) {
     .from('current_items')
     .select('*')
     .eq('section_id', sectionId)
-    .order('id', { ascending: false });
+    .order('order', { ascending: true });
 
   if (error) throw new Error(error.message);
 
@@ -111,6 +111,17 @@ export async function editItem({
     .from('current_items')
     .update({ title, description, link })
     .eq('id', id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function updateOrder(newOrder: { id: number; order: number }[]) {
+  const { data, error } = await supabase
+    .from('current_items')
+    .upsert(newOrder, { onConflict: 'id' })
     .select();
 
   if (error) throw new Error(error.message);

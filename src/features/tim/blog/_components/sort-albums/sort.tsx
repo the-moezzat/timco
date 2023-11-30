@@ -31,31 +31,23 @@ export default function Sort({
 
   const { deleteAlbum } = useDeleteAlbum(albums, postTitle);
 
-  // const fileArr = useMemo(
-  //   () =>
-  //     alb.map((album, index) => ({
-  //       id: index,
-  //       album,
-  //     })),
-  //   [alb]
-  // );
-
   const [fileArr, setFileArr] = useState(() =>
     alb.map((album, index) => ({
       id: index,
       album,
     }))
   );
+
+  const [order, setOrder] = useState(() => fileArr.map((album) => album.id));
+  
+    useEffect(() => {
+      onChange(order.map((id) => getAlbum(id) as string[]));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [order, fileArr]);
+
   function getAlbum(id: number): string[] | undefined {
     return fileArr.find((album) => album.id === id)?.album;
   }
-
-  const [order, setOrder] = useState(() => fileArr.map((album) => album.id));
-
-  useEffect(() => {
-    onChange(order.map((id) => getAlbum(id) as string[]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [order, fileArr]);
 
   function handleSortImage(id: number, newAlbum: string[]) {
     setFileArr((prevFileArr) => {

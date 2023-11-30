@@ -9,6 +9,8 @@ import { Toaster } from 'react-hot-toast';
 import TimRoutes from './features/tim/routes';
 import UserRoutes from './features/user/routes';
 import LoginRoutes from './features/login/routes';
+import { Analytics } from '@vercel/analytics/react';
+
 // import Test from './test';
 
 const queryClient = new QueryClient();
@@ -17,6 +19,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
+      <Analytics />
+
       <ReactQueryDevtools initialIsOpen={false} />
       <Suspense fallback={<Loading type="screen" size="large" />}>
         <BrowserRouter>
